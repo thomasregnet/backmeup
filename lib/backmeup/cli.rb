@@ -17,5 +17,17 @@ module Backmeup
       puts "v#{Backmeup::VERSION}"
     end
     map %w(--version -v) => :version
+
+    desc 'init PATH', 'Command description...'
+    method_option :help, aliases: '-h', type: :boolean,
+                         desc: 'Display usage information'
+    def init(path)
+      if options[:help]
+        invoke :help, ['init']
+      else
+        require_relative 'commands/init'
+        Backmeup::Commands::Init.new(path, options).execute
+      end
+    end
   end
 end
