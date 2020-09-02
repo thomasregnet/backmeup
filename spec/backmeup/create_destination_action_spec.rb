@@ -10,9 +10,9 @@ RSpec.describe Backmeup::CreateDestinationAction do
       let(:root) { Backmeup::Root.new('tmp') }
       let(:destination_date) { DateTime.now.to_s }
 
-      # before { FileUtils.mkpath(backups_dir) }
       before { FileUtils.mkpath(File.join('tmp', 'backups')) }
-      # after { FileUtils.rm_rf(backups_dir) }
+
+      after { FileUtils.rm_rf(File.join('tmp', 'backups')) }
 
       it 'creates the destination' do
         described_class.perform(
