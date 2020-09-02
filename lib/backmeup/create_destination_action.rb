@@ -7,16 +7,16 @@ module Backmeup
       new(**args).perform
     end
 
-    def initialize(backups_dir:, destination:)
-      @backups_dir = backups_dir
+    def initialize(destination:, root:)
       @destination = destination
+      @root        = root
     end
 
-    attr_reader :backups_dir, :destination
+    attr_reader :destination, :root
 
     def perform
-      destination_path = File.join(backups_dir, destination)
-      FileUtils.mkpath(destination_path)
+      destination_path = Pathname.new(File.join(root.backups, destination))
+      destination_path.mkpath
     end
   end
 end
