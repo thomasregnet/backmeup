@@ -2,6 +2,7 @@
 
 require 'active_support'
 require 'active_support/core_ext'
+require 'expire'
 
 require 'backmeup/root'
 require 'backmeup/create_destination_action'
