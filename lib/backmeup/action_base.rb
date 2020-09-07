@@ -19,13 +19,13 @@ module Backmeup
       root.bin.glob(script_name)[0] ? true : false
     end
 
-    def script_pathname
-      @script_pathname ||= Pathname.new(File.join(root.bin, script_name))
-    end
-
     def script_name
       match = self.class.to_s.match(/\A.*::(.+)Action\z/) || return
       match[1].underscore
+    end
+
+    def script_pathname
+      @script_pathname ||= Pathname.new(File.join(root.bin, script_name))
     end
   end
 end
