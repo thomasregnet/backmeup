@@ -14,13 +14,13 @@ RSpec.describe Backmeup::Commands::Create do
 
   describe '.execute' do
     let(:repository) { 'tmp' }
-
     before do
       FileUtils.mkpath(File.join(repository, 'backups'))
 
       allow(Expire).to receive(:newest).and_return(nil)
       allow(Backmeup::CreateDestinationAction).to receive(:perform)
         .and_return(nil)
+      allow(Backmeup::CreateBackupAction).to receive(:perform).and_return(nil)
     end
 
     after do
@@ -35,6 +35,12 @@ RSpec.describe Backmeup::Commands::Create do
 
     it 'calls Backmeup::CreateDestinationAction.perform' do
       expect(Backmeup::CreateDestinationAction).to receive(:perform)
+      create = described_class.new('tmp', {})
+      create.execute
+    end
+
+    it 'calls Backmeup::CreateBackupAction.perform' do
+      expect(Backmeup::CreateBackupAction).to receive(:perform)
       create = described_class.new('tmp', {})
       create.execute
     end
