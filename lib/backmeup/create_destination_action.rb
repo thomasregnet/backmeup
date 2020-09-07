@@ -26,6 +26,8 @@ module Backmeup
       end
     end
 
+    private
+
     def cmd
       TTY::Command.new
     end
