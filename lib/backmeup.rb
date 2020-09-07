@@ -3,7 +3,7 @@
 require 'active_support'
 require 'active_support/core_ext'
 require 'expire'
-
+require 'tty-command'
 require 'zeitwerk'
 
 loader = Zeitwerk::Loader.for_gem
