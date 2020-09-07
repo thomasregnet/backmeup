@@ -14,13 +14,13 @@ module Backmeup
       attr_reader :options, :repository
 
       def execute(input: $stdin, output: $stdout)
-        # previous_destination = Expire.newest
-        # destination = DateTime.now.to_s
-        # CreateDestinationAction.perform(
-        #   destination: destination,
-        #   previous_destination: previous_destination,
-        #   root: root
-        # )
+        previous_destination = Expire.newest(repository)
+
+        CreateDestinationAction.perform(
+          destination: destination,
+          # previous_destination: previous_destination,
+          root: root
+        )
 
         # CreateBackupAction.perform(
         #   destination: destination,
@@ -28,6 +28,12 @@ module Backmeup
         #   root: root
         # )
         output.puts('OK')
+      end
+
+      private
+
+      def destination
+        @destination ||= DateTime.now.to_s
       end
 
       def root
