@@ -17,7 +17,8 @@ RSpec.describe Backmeup::CreateDestinationAction do
       it 'creates the destination' do
         described_class.perform(
           destination: destination_date,
-          root:        root
+          previous_destination: nil,
+          root: root
         )
 
         expect(Pathname.new(File.join('tmp', 'backups', destination_date)))
@@ -29,6 +30,7 @@ RSpec.describe Backmeup::CreateDestinationAction do
       let(:creator) do
         described_class.new(
           destination: destination_date,
+          previous_destination: nil,
           root:        root
         )
       end

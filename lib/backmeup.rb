@@ -2,10 +2,13 @@
 
 require 'active_support'
 require 'active_support/core_ext'
+require 'expire'
 
-require 'backmeup/root'
-require 'backmeup/create_destination_action'
-require 'backmeup/version'
+require 'zeitwerk'
+
+loader = Zeitwerk::Loader.for_gem
+loader.inflector.inflect('cli' => 'CLI')
+loader.setup
 
 module Backmeup
   class Error < StandardError; end

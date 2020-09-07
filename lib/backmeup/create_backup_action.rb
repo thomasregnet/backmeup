@@ -3,8 +3,8 @@
 require 'tty-command'
 
 module Backmeup
-  # Create a Backup-Destination
-  class CreateDestinationAction
+  # Create a backup
+  class CreateBackupAction
     def self.perform(args)
       new(**args).perform
     end
@@ -18,15 +18,20 @@ module Backmeup
     attr_reader :destination, :previous_destination, :root
 
     def perform
-      destination_path = Pathname.new(File.join(root.backups, destination))
       if script_exists?
         cmd.run(script_pathname.to_s)
       else
-        destination_path.mkpath
+        File.open(File.join(root.config, 'filelist')).each do |src|
+          FileUtils.cp_r(src.chomp, backup_destination)
+        end
       end
     end
 
     private
+
+    def backup_destination
+      @backup_destination ||= File.join(root.backups, destination, 'data')
+    end
 
     def cmd
       TTY::Command.new
