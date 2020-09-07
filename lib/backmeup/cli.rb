@@ -18,6 +18,18 @@ module Backmeup
     end
     map %w(--version -v) => :version
 
+    desc 'create REPOSITORY', 'Command description...'
+    method_option :help, aliases: '-h', type: :boolean,
+                         desc: 'Display usage information'
+    def create(repository)
+      if options[:help]
+        invoke :help, ['create']
+      else
+        require_relative 'commands/create'
+        Backmeup::Commands::Create.new(repository, options).execute
+      end
+    end
+
     desc 'init PATH', 'Command description...'
     method_option :help, aliases: '-h', type: :boolean,
                          desc: 'Display usage information'
