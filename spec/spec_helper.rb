@@ -3,6 +3,7 @@
 require 'simplecov'
 require 'aruba/rspec'
 require 'bundler/setup'
+require 'byebug'
 require 'backmeup'
 
 RSpec.configure do |config|
