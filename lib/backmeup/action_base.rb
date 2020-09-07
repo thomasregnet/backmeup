@@ -19,10 +19,6 @@ module Backmeup
       root.bin.glob(script_name)[0] ? true : false
     end
 
-    def script_path
-      script_pathname.to_s
-    end
-
     def script_pathname
       @script_pathname ||= Pathname.new(File.join(root.bin, script_name))
     end
