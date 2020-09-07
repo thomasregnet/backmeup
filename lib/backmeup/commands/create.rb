@@ -18,7 +18,7 @@ module Backmeup
 
         CreateDestinationAction.perform(
           destination: destination,
-          # previous_destination: previous_destination,
+          previous_destination: previous_destination,
           root: root
         )
 

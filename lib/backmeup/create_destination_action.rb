@@ -9,12 +9,13 @@ module Backmeup
       new(**args).perform
     end
 
-    def initialize(destination:, root:)
-      @destination = destination
-      @root        = root
+    def initialize(destination:, previous_destination:, root:)
+      @destination          = destination
+      @previous_destination = previous_destination
+      @root                 = root
     end
 
-    attr_reader :destination, :root
+    attr_reader :destination, :previous_destination, :root
 
     def perform
       destination_path = Pathname.new(File.join(root.backups, destination))
