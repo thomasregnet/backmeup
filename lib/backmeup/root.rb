@@ -16,5 +16,9 @@ module Backmeup
     def bin
       @bin ||= Pathname.new(File.join(base_path, 'bin'))
     end
+
+    def config
+      @config ||= Pathname.new(File.join(base_path, 'config'))
+    end
   end
 end
