@@ -4,15 +4,15 @@ require 'tty-command'
 
 module Backmeup
   # Create a backup
-  class CreateBackupAction
+  class CreateBackupAction < ActionBase
     def self.perform(args)
       new(**args).perform
     end
 
-    def initialize(destination:, previous_destination:, root:)
+    def initialize(destination:, previous_destination:, **args)
+      super(args)
       @destination          = destination
       @previous_destination = previous_destination
-      @root                 = root
     end
 
     attr_reader :destination, :previous_destination, :root
@@ -31,27 +31,6 @@ module Backmeup
 
     def backup_destination
       @backup_destination ||= File.join(root.backups, destination, 'data')
-    end
-
-    def cmd
-      TTY::Command.new
-    end
-
-    def script_exists?
-      root.bin.glob(script_name)[0] ? true : false
-    end
-
-    def script_path
-      script_pathname.to_s
-    end
-
-    def script_pathname
-      @script_pathname ||= Pathname.new(File.join(root.bin, script_name))
-    end
-
-    def script_name
-      match = self.class.to_s.match(/\A.*::(.+)Action\z/) || return
-      match[1].underscore
     end
   end
 end
