@@ -29,6 +29,7 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency 'activesupport'
   spec.add_dependency 'tty-command'
+  spec.add_dependency 'zeitwerk'
 
   spec.add_development_dependency 'aruba'
   spec.add_development_dependency 'byebug'
