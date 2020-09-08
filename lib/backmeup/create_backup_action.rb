@@ -10,7 +10,7 @@ module Backmeup
     end
 
     def initialize(destination:, previous_destination:, **args)
-      super(args)
+      super(**args)
       @destination          = destination
       @previous_destination = previous_destination
     end
