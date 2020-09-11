@@ -15,9 +15,13 @@ module Backmeup
     attr_reader :layout
 
     def perform
-      FileUtils.mkpath(layout.data)
-      create_or_empty(layout.stderr)
-      create_or_empty(layout.stdout)
+      if script_exists?
+        cmd.run(script_pathname.to_s)
+      else
+        FileUtils.mkpath(layout.data)
+        create_or_empty(layout.stderr)
+        create_or_empty(layout.stdout)
+      end
     end
 
     private

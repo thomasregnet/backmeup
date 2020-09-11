@@ -67,16 +67,29 @@ RSpec.describe Backmeup::FurnishDestinationAction do
     end
 
     context 'when a "furnish_destination" script exists' do
-      let(:bin_path) { FileUtils.join('tmp', 'bin') }
+      let(:furnisher) do
+        described_class.new(layout: layout, root: root)
+      end
+
+      let(:bin_path) { File.join('tmp', 'bin') }
+      let(:cmd) { instance_double('TTY::Command') }
 
       before do
         FileUtils.mkpath(bin_path)
 
-        script_path = FileUtils.join(bin_path, 'furnish_destination')
+        script_path = File.join(bin_path, 'furnish_destination')
         FileUtils.touch(script_path)
+
+        allow(furnisher).to receive(:cmd).and_return(cmd)
+        allow(cmd).to receive(:run)
       end
 
       after { FileUtils.rm_rf(bin_path) }
+
+      it 'calls cmd.run' do
+        furnisher.perform
+        expect(cmd).to have_received(:run)
+      end
     end
   end
 end
