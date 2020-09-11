@@ -15,8 +15,14 @@ module Backmeup
 
     def perform
       FileUtils.mkpath(layout.data)
-      File.open(layout.stderr, 'w') { |file| file.truncate(0) }
-      File.open(layout.stdout, 'w') { |file| file.truncate(0) }
+      create_or_empty(layout.stderr)
+      create_or_empty(layout.stdout)
+    end
+
+    private
+
+    def create_or_empty(path)
+      File.open(path, 'w') { |file| file.truncate(0) }
     end
   end
 end
