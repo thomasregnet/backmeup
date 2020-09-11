@@ -21,9 +21,16 @@ module Backmeup
       if script_exists?
         cmd.run(script_pathname.to_s)
       else
-        destination_path = Pathname.new(File.join(root.backups, destination))
         destination_path.mkpath
       end
+
+      FurnishDestinationAction.perform(destination_path: destination_path)
+    end
+
+    private
+
+    def destination_path
+      @destination_path ||= Pathname.new(File.join(root.backups, destination))
     end
   end
 end
