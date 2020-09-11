@@ -24,10 +24,17 @@ module Backmeup
         destination_path.mkpath
       end
 
-      FurnishDestinationAction.perform(destination_path: destination_path)
+      FurnishDestinationAction.perform(layout: destination_layout)
     end
 
     private
+
+    def destination_layout
+      @destination_layout ||= DestinationLayout.new(
+        destination: destination,
+        root: root
+      )
+    end
 
     def destination_path
       @destination_path ||= Pathname.new(File.join(root.backups, destination))

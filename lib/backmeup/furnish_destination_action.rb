@@ -7,16 +7,25 @@ module Backmeup
       new(**args).perform
     end
 
-    def initialize(destination_path:)
-      @destination_path = destination_path
+    # def initialize(destination_path:)
+    #   @destination_path = destination_path
+    # end
+
+    # attr_reader :destination_path
+
+    def initialize(layout:)
+      @layout = layout
     end
 
-    attr_reader :destination_path
+    attr_reader :layout
 
     def perform
-      create_destination_data
-      create_destination_log('stdout')
-      create_destination_log('stderr')
+      # create_destination_data
+      # create_destination_log('stdout')
+      # create_destination_log('stderr')
+      FileUtils.mkpath(layout.data)
+      File.open(layout.stderr, 'w') { |file| file.truncate(0) }
+      File.open(layout.stdout, 'w') { |file| file.truncate(0) }
     end
 
     private
