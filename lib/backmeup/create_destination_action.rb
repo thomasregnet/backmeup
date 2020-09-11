@@ -24,7 +24,7 @@ module Backmeup
         destination_path.mkpath
       end
 
-      FurnishDestinationAction.perform(layout: destination_layout)
+      FurnishDestinationAction.perform(layout: destination_layout, root: root)
     end
 
     private

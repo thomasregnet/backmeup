@@ -7,7 +7,8 @@ module Backmeup
       new(**args).perform
     end
 
-    def initialize(layout:)
+    def initialize(layout:, **args)
+      super(**args)
       @layout = layout
     end
 
