@@ -22,18 +22,12 @@ module Backmeup
     private
 
     def create_destination_data
-      return if data_pathname.exist?
-
-      data_pathname.mkpath
+      FileUtils.mkpath(File.join(destination_path, 'data'))
     end
 
     def create_destination_log(file_name)
       log_file = File.join(destination_path, file_name)
-      FileUtils.touch(log_file)
-    end
-
-    def data_pathname
-      @data_pathname ||= Pathname.new(File.join(destination_path, 'data'))
+      File.open(log_file, 'w') { |file| file.truncate(0) }
     end
   end
 end
