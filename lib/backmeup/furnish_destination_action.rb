@@ -20,7 +20,7 @@ module Backmeup
     protected
 
     def perform_with_script
-      env = { 'DESTINATION_PATH' => File.join(root.backups, destination) }
+      env = { 'DESTINATION_PATH' => destination_path }
       cmd.run(script_path, env: env)
     end
 
