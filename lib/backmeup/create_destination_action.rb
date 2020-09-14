@@ -19,6 +19,8 @@ module Backmeup
 
     attr_reader :destination, :previous_destination, :root
 
+    protected
+
     def perform_with_script
       cmd.run(script_pathname.to_s)
       furnish_destination
