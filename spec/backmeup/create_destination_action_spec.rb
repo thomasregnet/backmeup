@@ -1,9 +1,21 @@
 # frozen_string_literal: true
 
 require 'support/shared_examples_for_actions'
+require 'support/shared_examples_for_scriptable_actions'
 
 RSpec.describe Backmeup::CreateDestinationAction do
+  subject do
+    described_class.new(
+      destination: 'my_destination',
+      previous_destination: nil,
+      root: :fake_root
+    )
+  end
+
   it_behaves_like 'an action'
+  it_behaves_like 'a scriptable action' do
+    let(:script_name) { 'create_destination' }
+  end
 
   describe '.perform' do
     let(:root) { Backmeup::Root.new('tmp') }
