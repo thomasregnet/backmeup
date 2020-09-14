@@ -90,7 +90,12 @@ RSpec.describe Backmeup::FurnishDestinationAction do
         FileUtils.touch(script_path)
 
         allow(furnisher).to receive(:cmd).and_return(cmd)
-        allow(cmd).to receive(:run)
+        allow(cmd).to receive(:run).with(
+          File.join('tmp', 'bin', 'furnish_destination'),
+          env: {
+            'DESTINATION_PATH' => File.join('tmp', 'backups', destination)
+          }
+        )
       end
 
       after { FileUtils.rm_rf(bin_path) }
