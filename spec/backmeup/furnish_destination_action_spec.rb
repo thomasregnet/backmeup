@@ -9,16 +9,13 @@ RSpec.describe Backmeup::FurnishDestinationAction do
     let(:destination) { 'test_destination' }
     let(:root) { Backmeup::Root.new('tmp') }
     let(:destination_path) { File.join('tmp', 'backups', destination) }
-    let(:layout) do
-      Backmeup::DestinationLayout.new(destination: destination, root: root)
-    end
 
     before { FileUtils.mkpath(root.backups) }
 
     after { FileUtils.rm_rf(root.backups) }
 
     context 'with an empty destination' do
-      before { described_class.perform(layout: layout, root: root) }
+      before { described_class.perform(destination: destination, root: root) }
 
       it 'creates the directory "data"' do
         expect(Pathname.new(File.join(destination_path, 'data')))
@@ -49,7 +46,7 @@ RSpec.describe Backmeup::FurnishDestinationAction do
           file.puts('errors')
         end
 
-        described_class.perform(layout: layout, root: root)
+        described_class.perform(destination: destination, root: root)
       end
 
       it 'keeps the given data' do
@@ -68,7 +65,7 @@ RSpec.describe Backmeup::FurnishDestinationAction do
 
     context 'when a "furnish_destination" script exists' do
       let(:furnisher) do
-        described_class.new(layout: layout, root: root)
+        described_class.new(destination: destination, root: root)
       end
 
       let(:bin_path) { File.join('tmp', 'bin') }

@@ -3,24 +3,26 @@
 module Backmeup
   # Create the structure of a destination
   class FurnishDestinationAction < ActionBase
+    include DestinationLayout
+
     def self.perform(args)
       new(**args).perform
     end
 
-    def initialize(layout:, **args)
+    def initialize(destination:, **args)
       super(**args)
-      @layout = layout
+      @destination = destination
     end
 
-    attr_reader :layout
+    attr_reader :destination
 
     def perform
       if script_exists?
         cmd.run(script_pathname.to_s)
       else
-        FileUtils.mkpath(layout.data)
-        create_or_empty(layout.stderr)
-        create_or_empty(layout.stdout)
+        FileUtils.mkpath(destination_data)
+        create_or_empty(destination_stderr)
+        create_or_empty(destination_stdout)
       end
     end
 
