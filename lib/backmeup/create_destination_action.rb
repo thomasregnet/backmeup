@@ -5,6 +5,8 @@ require 'tty-command'
 module Backmeup
   # Create a Backup-Destination
   class CreateDestinationAction < ActionBase
+    include ScriptableAction
+
     def self.perform(args)
       new(**args).perform
     end
@@ -17,14 +19,14 @@ module Backmeup
 
     attr_reader :destination, :previous_destination, :root
 
-    def perform
-      if script_exists?
-        cmd.run(script_pathname.to_s)
-      else
-        destination_path.mkpath
-      end
+    def perform_with_script
+      cmd.run(script_pathname.to_s)
+      furnish_destination
+    end
 
-      FurnishDestinationAction.perform(destination: destination, root: root)
+    def perform_without_script
+      destination_path.mkpath
+      furnish_destination
     end
 
     private
@@ -38,6 +40,10 @@ module Backmeup
 
     def destination_path
       @destination_path ||= Pathname.new(File.join(root.backups, destination))
+    end
+
+    def furnish_destination
+      FurnishDestinationAction.perform(destination: destination, root: root)
     end
   end
 end
