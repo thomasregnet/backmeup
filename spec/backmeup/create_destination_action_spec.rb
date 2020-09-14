@@ -13,7 +13,9 @@ RSpec.describe Backmeup::CreateDestinationAction do
   end
 
   it_behaves_like 'an action'
-  it_behaves_like 'a scriptable action'
+  it_behaves_like 'a scriptable action' do
+    let(:script_name) { 'create_destination' }
+  end
 
   describe '.perform' do
     let(:root) { Backmeup::Root.new('tmp') }

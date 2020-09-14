@@ -28,4 +28,16 @@ RSpec.shared_examples 'a scriptable action' do
       end
     end
   end
+
+  describe '#cmd (protected)' do
+    it 'returns an instance of TTY::Command' do
+      expect(subject.send(:cmd)).to be_instance_of(TTY::Command)
+    end
+  end
+
+  describe '#script_name' do
+    it 'returns the expected script_name' do
+      expect(subject.send(:script_name)).to eq(script_name)
+    end
+  end
 end

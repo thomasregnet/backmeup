@@ -13,7 +13,9 @@ RSpec.describe Backmeup::CreateBackupAction do
   end
 
   it_behaves_like 'an action'
-  it_behaves_like 'a scriptable action'
+  it_behaves_like 'a scriptable action' do
+    let(:script_name) { 'create_backup' }
+  end
 
   describe '.perform' do
     let(:repository) { File.join('tmp', 'repository') }
