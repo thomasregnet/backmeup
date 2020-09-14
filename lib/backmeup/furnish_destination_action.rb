@@ -3,6 +3,7 @@
 module Backmeup
   # Create the structure of a destination
   class FurnishDestinationAction < ActionBase
+    include ScriptableAction
     include DestinationLayout
 
     def self.perform(args)
