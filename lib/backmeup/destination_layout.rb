@@ -7,6 +7,10 @@ module Backmeup
       @data ||= File.join(root.backups, destination, 'data')
     end
 
+    def destination_path
+      @destination_path ||= File.join(root.backups, destination)
+    end
+
     def destination_stderr
       @stderr ||= File.join(root.backups, destination, 'stderr')
     end

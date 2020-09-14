@@ -28,12 +28,20 @@ RSpec.shared_examples 'a DestinationLayout' do
     end
   end
 
+  describe '#destination_path' do
+    it 'returns the path to the destination stderr' do
+      expect(subject.destination_path)
+        .to eq(File.join(*path_array, destination))
+    end
+  end
+
   describe '#destination_stderr' do
     it 'returns the path to the destination stderr' do
       expect(subject.destination_stderr)
         .to eq(File.join(*path_array, destination, 'stderr'))
     end
   end
+
   describe '#destination_stdout' do
     it 'returns the path to the destination stdout' do
       expect(subject.destination_stdout)
