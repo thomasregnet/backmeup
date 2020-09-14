@@ -3,13 +3,6 @@
 module Backmeup
   # Paths inside a destination
   module DestinationLayout
-    # def initialize(destination:, root:)
-    #   @destination = destination
-    #   @root        = root
-    # end
-
-    # attr_reader :destination, :root
-
     def destination_data
       @data ||= File.join(root.backups, destination, 'data')
     end

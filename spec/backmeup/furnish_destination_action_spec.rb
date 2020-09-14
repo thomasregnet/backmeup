@@ -1,9 +1,17 @@
 # frozen_string_literal: true
 
 require 'support/shared_examples_for_actions'
+require 'support/shared_examples_for_destination_layout'
 
 RSpec.describe Backmeup::FurnishDestinationAction do
+  subject do
+    described_class.new(
+      destination: 'my_destination',
+      root:        Backmeup::Root.new('tmp'))
+  end
+
   it_behaves_like 'an action'
+  it_behaves_like 'a DestinationLayout'
 
   describe '.perform' do
     let(:destination) { 'test_destination' }
