@@ -22,7 +22,7 @@ module Backmeup
     protected
 
     def perform_with_script
-      cmd.run(script_pathname.to_s)
+      cmd.run(script_path)
       furnish_destination
     end
 

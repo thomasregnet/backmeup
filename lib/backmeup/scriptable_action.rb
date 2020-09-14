@@ -22,8 +22,8 @@ module Backmeup
       match[1].underscore
     end
 
-    def script_pathname
-      @script_pathname ||= Pathname.new(File.join(root.bin, script_name))
+    def script_path
+      @script_path ||= File.join(root.bin, script_name)
     end
   end
 end

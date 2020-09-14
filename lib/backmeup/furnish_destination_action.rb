@@ -19,7 +19,7 @@ module Backmeup
 
     def perform
       if script_exists?
-        cmd.run(script_pathname.to_s)
+        cmd.run(script_path)
       else
         FileUtils.mkpath(destination_data)
         create_or_empty(destination_stderr)
