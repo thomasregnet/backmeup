@@ -33,13 +33,6 @@ module Backmeup
 
     private
 
-    def destination_layout
-      @destination_layout ||= DestinationLayout.new(
-        destination: destination,
-        root: root
-      )
-    end
-
     def destination_path
       @destination_path ||= Pathname.new(File.join(root.backups, destination))
     end
