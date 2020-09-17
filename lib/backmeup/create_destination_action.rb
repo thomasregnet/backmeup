@@ -22,12 +22,15 @@ module Backmeup
 
     protected
 
-    def perform_with_script
-      env = {
+    def env
+      {
         'DESTINATION_PATH'          => destination_path,
         'PREVIOUS_DESTINATION_PATH' => previous_destination
       }
-      cmd.run(script_path, env: env)
+    end
+
+    def perform_with_script
+      super
       furnish_destination
     end
 
