@@ -35,6 +35,12 @@ RSpec.shared_examples 'a scriptable action' do
     end
   end
 
+  describe '#env (protected)' do
+    it 'returns a hash' do
+      expect(subject.send(:env)).to be_instance_of(Hash)
+    end
+  end
+
   describe '#script_name' do
     it 'returns the expected script_name' do
       expect(subject.send(:script_name)).to eq(script_name)

@@ -8,7 +8,7 @@ RSpec.describe Backmeup::CreateDestinationAction do
     described_class.new(
       destination: 'my_destination',
       previous_destination: nil,
-      root: :fake_root
+      root: Backmeup::Root.new('fake/path')
     )
   end
 
