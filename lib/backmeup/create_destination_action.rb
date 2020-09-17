@@ -25,7 +25,7 @@ module Backmeup
     def env
       {
         'DESTINATION_PATH'          => destination_path,
-        'PREVIOUS_DESTINATION_PATH' => previous_destination
+        'PREVIOUS_DESTINATION_PATH' => previous_destination_path
       }
     end
 
@@ -43,6 +43,12 @@ module Backmeup
 
     def furnish_destination
       FurnishDestinationAction.perform(destination: destination, root: root)
+    end
+
+    def previous_destination_path
+      return unless previous_destination
+
+      File.join(root.backups, previous_destination)
     end
   end
 end

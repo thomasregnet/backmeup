@@ -76,4 +76,24 @@ RSpec.describe Backmeup::CreateDestinationAction do
       end
     end
   end
+
+  describe '#env' do
+    let(:env) do
+      described_class.new(
+        destination: 'my_destination',
+        previous_destination: 'previous_destination',
+        root: Backmeup::Root.new('root')
+      ).send(:env)
+    end
+
+    it 'sets the DESTINATION_PATH' do
+      expect(env['DESTINATION_PATH'])
+        .to eq(File.join('root', 'backups', 'my_destination'))
+    end
+
+    it 'sets the PREVIOUS_DESTINATION_PATH' do
+      expect(env['PREVIOUS_DESTINATION_PATH'])
+        .to eq(File.join('root', 'backups', 'previous_destination'))
+    end
+  end
 end
