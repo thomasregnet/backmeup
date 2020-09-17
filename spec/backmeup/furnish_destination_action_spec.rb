@@ -90,12 +90,7 @@ RSpec.describe Backmeup::FurnishDestinationAction do
         FileUtils.touch(script_path)
 
         allow(furnisher).to receive(:cmd).and_return(cmd)
-        allow(cmd).to receive(:run).with(
-          File.join('tmp', 'bin', 'furnish_destination'),
-          env: {
-            'DESTINATION_PATH' => File.join('tmp', 'backups', destination)
-          }
-        )
+        allow(cmd).to receive(:run)
       end
 
       after { FileUtils.rm_rf(bin_path) }
@@ -104,6 +99,35 @@ RSpec.describe Backmeup::FurnishDestinationAction do
         furnisher.perform
         expect(cmd).to have_received(:run)
       end
+    end
+  end
+
+  describe '#env' do
+    let(:env) do
+      described_class.new(
+        destination: 'my_destination',
+        root: Backmeup::Root.new('root')
+      ).send(:env)
+    end
+
+    it 'sets the DESTINATION_DATA variable' do
+      expect(env['DESTINATION_DATA'])
+        .to eq(File.join('root', 'backups', 'my_destination', 'data'))
+    end
+
+    it 'sets the DESTINATION_PATH variable' do
+      expect(env['DESTINATION_PATH'])
+        .to eq(File.join('root', 'backups', 'my_destination'))
+    end
+
+    it 'sets the DESTINATION_STDERR variable' do
+      expect(env['DESTINATION_STDERR'])
+        .to eq(File.join('root', 'backups', 'my_destination', 'stderr'))
+    end
+
+    it 'sets the DESTINATION_STDOUT variable' do
+      expect(env['DESTINATION_STDOUT'])
+        .to eq(File.join('root', 'backups', 'my_destination', 'stdout'))
     end
   end
 end

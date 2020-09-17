@@ -20,7 +20,12 @@ module Backmeup
     protected
 
     def env
-      { 'DESTINATION_PATH' => destination_path }
+      {
+        'DESTINATION_DATA' => destination_data,
+        'DESTINATION_PATH' => destination_path,
+        'DESTINATION_STDERR' => destination_stderr,
+        'DESTINATION_STDOUT' => destination_stdout
+      }
     end
 
     def perform_without_script
