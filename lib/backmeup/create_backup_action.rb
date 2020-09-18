@@ -23,7 +23,7 @@ module Backmeup
     protected
 
     def env
-      destination_layout_env(previous_destination_env)
+      destination_env(previous_destination_env)
     end
 
     def perform_without_script

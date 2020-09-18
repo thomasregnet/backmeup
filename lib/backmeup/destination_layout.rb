@@ -19,7 +19,7 @@ module Backmeup
       @destination_stdout ||= File.join(destination_path, 'stdout')
     end
 
-    def destination_layout_env(other_env = {})
+    def destination_env(other_env = {})
       {
         'DESTINATION_DATA'   => destination_data,
         'DESTINATION_PATH'   => destination_path,
