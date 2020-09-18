@@ -19,8 +19,8 @@ module Backmeup
 
     protected
 
-    def perform_with_script
-      cmd.run(script_path)
+    def env
+      destination_env
     end
 
     def perform_without_script

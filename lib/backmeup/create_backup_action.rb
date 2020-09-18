@@ -5,8 +5,9 @@ require 'tty-command'
 module Backmeup
   # Create a backup
   class CreateBackupAction < ActionBase
+    include DestinationLayout
+    include PreviousDestinationLayout
     include ScriptableAction
-
     def self.perform(args)
       new(**args).perform
     end
@@ -21,8 +22,8 @@ module Backmeup
 
     protected
 
-    def perform_with_script
-      cmd.run(script_path)
+    def env
+      destination_env(previous_destination_env)
     end
 
     def perform_without_script

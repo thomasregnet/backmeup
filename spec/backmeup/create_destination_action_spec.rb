@@ -8,7 +8,7 @@ RSpec.describe Backmeup::CreateDestinationAction do
     described_class.new(
       destination: 'my_destination',
       previous_destination: nil,
-      root: :fake_root
+      root: Backmeup::Root.new('fake/path')
     )
   end
 
@@ -19,7 +19,7 @@ RSpec.describe Backmeup::CreateDestinationAction do
 
   describe '.perform' do
     let(:root) { Backmeup::Root.new('tmp') }
-    let(:destination_date) { DateTime.now.to_s }
+    let(:destination) { 'my_destination' }
 
     context 'without a create_destination script' do
       before { FileUtils.mkpath(File.join('tmp', 'backups')) }
@@ -28,12 +28,12 @@ RSpec.describe Backmeup::CreateDestinationAction do
 
       it 'creates the destination' do
         described_class.perform(
-          destination: destination_date,
+          destination: destination,
           previous_destination: nil,
           root: root
         )
 
-        expect(Pathname.new(File.join('tmp', 'backups', destination_date)))
+        expect(Pathname.new(File.join('tmp', 'backups', destination)))
           .to exist
       end
     end
@@ -41,7 +41,7 @@ RSpec.describe Backmeup::CreateDestinationAction do
     context 'with a create_destination script' do
       let(:creator) do
         described_class.new(
-          destination: destination_date,
+          destination: destination,
           previous_destination: nil,
           root:        root
         )
@@ -57,7 +57,16 @@ RSpec.describe Backmeup::CreateDestinationAction do
         FileUtils.chmod(0o755, script_path)
 
         allow(creator).to receive(:cmd).and_return(cmd)
-        allow(cmd).to receive(:run)
+        allow(cmd).to receive(:run).with(
+          'tmp/bin/create_destination',
+          {
+            env: {
+              'DESTINATION_PATH'          => 'tmp/backups/my_destination',
+              'PREVIOUS_DESTINATION_DATA' => nil,
+              'PREVIOUS_DESTINATION_PATH' => nil
+            }
+          }
+        )
       end
 
       after { FileUtils.rm_rf(bin_path) }
@@ -66,6 +75,26 @@ RSpec.describe Backmeup::CreateDestinationAction do
         creator.perform
         expect(cmd).to have_received(:run)
       end
+    end
+  end
+
+  describe '#env' do
+    let(:env) do
+      described_class.new(
+        destination: 'my_destination',
+        previous_destination: 'previous_destination',
+        root: Backmeup::Root.new('root')
+      ).send(:env)
+    end
+
+    it 'sets the DESTINATION_PATH' do
+      expect(env['DESTINATION_PATH'])
+        .to eq(File.join('root', 'backups', 'my_destination'))
+    end
+
+    it 'sets the PREVIOUS_DESTINATION_PATH' do
+      expect(env['PREVIOUS_DESTINATION_PATH'])
+        .to eq(File.join('root', 'backups', 'previous_destination'))
     end
   end
 end

@@ -13,6 +13,10 @@ module Backmeup
       TTY::Command.new
     end
 
+    def perform_with_script
+      cmd.run(script_path, env: env)
+    end
+
     def script_exists?
       root.bin.glob(script_name)[0] ? true : false
     end
