@@ -90,7 +90,7 @@ RSpec.describe Backmeup::CreateBackupAction do
       let(:env) do
         described_class.new(
           destination:          'my_destination',
-          previous_destination: nil,
+          previous_destination: 'previous_destination',
           root:                 Backmeup::Root.new('root')
         ).send(:env)
       end
@@ -114,7 +114,20 @@ RSpec.describe Backmeup::CreateBackupAction do
         expect(env['DESTINATION_STDOUT'])
           .to eq(File.join('root', 'backups', 'my_destination', 'stdout'))
       end
+
+      it 'sets the PREVIOUS_DESTINATION_DATA variable' do
+        expect(env['PREVIOUS_DESTINATION_DATA'])
+          .to eq(
+            File.join('root', 'backups', 'previous_destination', 'data')
+          )
+      end
+
+      it 'sets the PREVIOUS_DESTINATION_PATH variable' do
+        expect(env['PREVIOUS_DESTINATION_PATH'])
+          .to eq(File.join('root', 'backups', 'previous_destination'))
+      end
     end
+
 
     context 'without a previous_destination'
   end
