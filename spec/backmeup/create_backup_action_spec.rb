@@ -165,7 +165,6 @@ RSpec.describe Backmeup::CreateBackupAction do
       it 'does not set the PREVIOUS_DESTINATION_PATH variable' do
         expect(env['PREVIOUS_DESTINATION_PATH']).to be_nil
       end
-
     end
   end
 end
