@@ -62,6 +62,7 @@ RSpec.describe Backmeup::CreateDestinationAction do
           {
             env: {
               'DESTINATION_PATH'          => 'tmp/backups/my_destination',
+              'PREVIOUS_DESTINATION_DATA' => nil,
               'PREVIOUS_DESTINATION_PATH' => nil
             }
           }

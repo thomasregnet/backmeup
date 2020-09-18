@@ -6,6 +6,7 @@ module Backmeup
   # Create a Backup-Destination
   class CreateDestinationAction < ActionBase
     include DestinationLayout
+    include PreviousDestinationLayout
     include ScriptableAction
 
     def self.perform(args)
@@ -23,10 +24,7 @@ module Backmeup
     protected
 
     def env
-      {
-        'DESTINATION_PATH'          => destination_path,
-        'PREVIOUS_DESTINATION_PATH' => previous_destination_path
-      }
+      previous_destination_env({ 'DESTINATION_PATH' => destination_path })
     end
 
     def perform_with_script
@@ -45,6 +43,7 @@ module Backmeup
       FurnishDestinationAction.perform(destination: destination, root: root)
     end
 
+    # TODO: delete method?
     def previous_destination_path
       return unless previous_destination
 
