@@ -42,12 +42,5 @@ module Backmeup
     def furnish_destination
       FurnishDestinationAction.perform(destination: destination, root: root)
     end
-
-    # TODO: delete method?
-    def previous_destination_path
-      return unless previous_destination
-
-      File.join(root.backups, previous_destination)
-    end
   end
 end
