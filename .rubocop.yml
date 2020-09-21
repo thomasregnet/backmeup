@@ -1,0 +1,17 @@
+require: rubocop-rspec
+
+AllCops:
+  Exclude:
+    - 'Gemfile'
+    - 'Rakefile'
+    - 'bin/console'
+    - 'backmeoup.gemspec'
+    - 'spec/spec_helper.rb'
+  NewCops: enable
+
+Metrics/BlockLength:
+  Exclude:
+    - 'spec/**/*'
+
+Layout/HashAlignment:
+  EnforcedColonStyle: table
