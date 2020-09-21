@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'backmeup/commands/create'
 
 RSpec.describe Backmeup::Commands::Create do

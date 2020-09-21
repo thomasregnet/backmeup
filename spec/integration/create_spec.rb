@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe '`backmeup create` command', type: :cli do
   it 'executes `backmeup help create` command successfully' do
     output = `backmeup help create`

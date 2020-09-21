@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe Backmeup do
   it 'has a version number' do
     expect(Backmeup::VERSION).not_to be nil

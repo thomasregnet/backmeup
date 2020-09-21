@@ -9,7 +9,7 @@ RSpec.describe Backmeup::Commands::Init do
     let(:path) { Pathname.new(File.join('tmp', 'my_backups')) }
 
     before do
-      Backmeup::Commands::Init.new(path, options).execute(output: output)
+      described_class.new(path, options).execute(output: output)
     end
 
     after do
