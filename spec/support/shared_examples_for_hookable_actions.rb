@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 RSpec.shared_examples 'a hookable action' do
-  it { should respond_to(:perform) }
-  it { should respond_to(:root) }
+  it { is_expected.to respond_to(:perform) }
+  it { is_expected.to respond_to(:root) }
 
   describe '#cmd' do
     it 'returns an instance of TTY::Command' do
@@ -16,64 +16,42 @@ RSpec.shared_examples 'a hookable action' do
     end
   end
 
-  describe 'before hook' do
-    context 'when a before hook exist?' do
-      let(:cmd) { instance_double('TTY::Command') }
+  %w[before after].each do |point|
+    describe "#{point} hook" do
+      let(:perform) { subject.method(:perform) }
+      let(:cmd) { spy }
+      let(:bin_path) { File.join(subject.root.base_path, 'bin') }
 
       before do
-        allow(subject).to receive('before_hook_exist?').and_return(true)
-        allow(subject).to receive(:perform_without_script)
-        allow(subject).to receive(:cmd).and_return(cmd)
-        allow(cmd).to receive(:run)
-      end
-
-      it 'calls #perform_with_script' do
-        subject.perform
-        expect(cmd).to have_received(:run)
-      end
-    end
-
-    context 'when no before hook exist?' do
-      before do
-        allow(subject).to receive('before_hook_exist?').and_return(false)
-        allow(subject).to receive(:perform_without_script)
+        FileUtils.mkpath(bin_path)
         allow(subject).to receive(:perform_without_script)
       end
 
-      it 'calls #perform_without_script' do
-        subject.perform
-        expect(subject).to have_received(:perform_without_script)
-      end
-    end
-  end
+      after { FileUtils.rm_rf(bin_path) }
 
-  describe 'after hook' do
-    context 'when a after hook exist?' do
-      let(:cmd) { instance_double('TTY::Command') }
+      context "when a #{point} hook exist?" do
+        before do
+          hook_name = "#{point}_#{script_name}"
+          hook_path = File.join(bin_path, hook_name)
 
-      before do
-        allow(subject).to receive('after_hook_exist?').and_return(true)
-        allow(subject).to receive(:perform_without_script)
-        allow(subject).to receive(:cmd).and_return(cmd)
-        allow(cmd).to receive(:run)
-      end
+          FileUtils.touch(hook_path)
+          FileUtils.chmod(0o755, hook_path)
 
-      it 'calls #perform_with_script' do
-        subject.perform
-        expect(cmd).to have_received(:run)
-      end
-    end
+          allow(TTY::Command).to receive(:new).and_return(cmd)
+          allow(cmd).to receive(:run)
+        end
 
-    context 'when no after hook exist?' do
-      before do
-        allow(subject).to receive('after_hook_exist?').and_return(false)
-        allow(subject).to receive(:perform_without_script)
-        allow(subject).to receive(:perform_without_script)
+        it 'calls #perform_with_script' do
+          subject.perform
+          expect(cmd).to have_received(:run)
+        end
       end
 
-      it 'calls #perform_without_script' do
-        subject.perform
-        expect(subject).to have_received(:perform_without_script)
+      context 'when no before hook exist?' do
+        it 'calls #perform_without_script' do
+          subject.perform
+          expect(cmd).not_to have_received(:run)
+        end
       end
     end
   end

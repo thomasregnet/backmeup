@@ -21,8 +21,8 @@ module Backmeup
 
     def destination_env(other_env = {})
       {
-        'DESTINATION_DATA'   => destination_data,
-        'DESTINATION_PATH'   => destination_path,
+        'DESTINATION_DATA' => destination_data,
+        'DESTINATION_PATH' => destination_path,
         'DESTINATION_STDERR' => destination_stderr,
         'DESTINATION_STDOUT' => destination_stdout
       }.merge(other_env)

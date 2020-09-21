@@ -24,17 +24,17 @@ module Backmeup
 
       def create_backup
         CreateBackupAction.perform(
-          destination: destination,
+          destination:          destination,
           previous_destination: previous_destination,
-          root: root
+          root:                 root
         )
       end
 
       def create_destination
         CreateDestinationAction.perform(
-          destination: destination,
+          destination:          destination,
           previous_destination: previous_destination,
-          root: root
+          root:                 root
         )
       end
 

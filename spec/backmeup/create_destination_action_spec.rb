@@ -7,14 +7,18 @@ require 'support/shared_examples_for_scriptable_actions'
 RSpec.describe Backmeup::CreateDestinationAction do
   subject do
     described_class.new(
-      destination: 'my_destination',
+      destination:          'my_destination',
       previous_destination: nil,
-      root: Backmeup::Root.new('fake/path')
+      root:                 Backmeup::Root.new('fake/path')
     )
   end
 
   it_behaves_like 'an action'
-  it_behaves_like 'a hookable action'
+
+  it_behaves_like 'a hookable action' do
+    let(:script_name) { 'create_destination' }
+  end
+
   it_behaves_like 'a scriptable action' do
     let(:script_name) { 'create_destination' }
   end
@@ -24,17 +28,19 @@ RSpec.describe Backmeup::CreateDestinationAction do
     let(:destination) { 'my_destination' }
 
     context 'without a create_destination script' do
-      before { FileUtils.mkpath(File.join('tmp', 'backups')) }
+      before do
+        FileUtils.mkpath(File.join('tmp', 'backups'))
+
+        described_class.perform(
+          destination:          destination,
+          previous_destination: nil,
+          root:                 root
+        )
+      end
 
       after { FileUtils.rm_rf(File.join('tmp', 'backups')) }
 
       it 'creates the destination' do
-        described_class.perform(
-          destination: destination,
-          previous_destination: nil,
-          root: root
-        )
-
         expect(Pathname.new(File.join('tmp', 'backups', destination)))
           .to exist
       end
@@ -43,9 +49,9 @@ RSpec.describe Backmeup::CreateDestinationAction do
     context 'with a create_destination script' do
       let(:creator) do
         described_class.new(
-          destination: destination,
+          destination:          destination,
           previous_destination: nil,
-          root:        root
+          root:                 root
         )
       end
 
@@ -63,7 +69,7 @@ RSpec.describe Backmeup::CreateDestinationAction do
           'tmp/bin/create_destination',
           {
             env: {
-              'DESTINATION_PATH'          => 'tmp/backups/my_destination',
+              'DESTINATION_PATH' => 'tmp/backups/my_destination',
               'PREVIOUS_DESTINATION_DATA' => nil,
               'PREVIOUS_DESTINATION_PATH' => nil
             }
@@ -83,9 +89,9 @@ RSpec.describe Backmeup::CreateDestinationAction do
   describe '#env' do
     let(:env) do
       described_class.new(
-        destination: 'my_destination',
+        destination:          'my_destination',
         previous_destination: 'previous_destination',
-        root: Backmeup::Root.new('root')
+        root:                 Backmeup::Root.new('root')
       ).send(:env)
     end
 

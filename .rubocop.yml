@@ -1,0 +1,38 @@
+require: rubocop-rspec
+
+AllCops:
+  Exclude:
+    - 'Gemfile'
+    - 'Rakefile'
+    - 'bin/console'
+    - 'backmeup.gemspec'
+    - 'spec/spec_helper.rb'
+  NewCops: enable
+
+Metrics/BlockLength:
+  Exclude:
+    - 'spec/**/*'
+
+Layout/HashAlignment:
+  EnforcedColonStyle: table
+
+Lint/MissingSuper:
+  Enabled: true
+  Exclude:
+    - lib/backmeup/commands/*
+
+Lint/UnusedMethodArgument:
+  Enabled: true
+  Exclude:
+    - lib/backmeup/commands/*
+
+RSpec/DescribeClass:
+  Enabled: true
+  Exclude:
+    - spec/integration/*
+
+RSpec/FilePath:
+  Enabled: true
+  Exclude:
+    - spec/commands/*
+    - spec/unit/*

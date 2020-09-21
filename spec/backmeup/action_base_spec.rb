@@ -3,5 +3,5 @@
 RSpec.describe Backmeup::ActionBase do
   subject { described_class.new(root: :fake_root) }
 
-  it { should respond_to(:root) }
+  it { is_expected.to respond_to(:root) }
 end
