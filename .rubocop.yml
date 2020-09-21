@@ -25,3 +25,8 @@ Lint/UnusedMethodArgument:
   Enabled: true
   Exclude:
     - lib/backmeup/commands/*
+
+RSpec/DescribeClass:
+  Enabled: true
+  Exclude:
+    - spec/integration/*
