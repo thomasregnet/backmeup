@@ -14,8 +14,13 @@ RSpec.describe Backmeup::FurnishDestinationAction do
   end
 
   it_behaves_like 'an action'
+
   it_behaves_like 'a DestinationLayout'
-  it_behaves_like 'a hookable action'
+
+  it_behaves_like 'a hookable action' do
+    let(:script_name) { 'furnish_destination' }
+  end
+
   it_behaves_like 'a scriptable action' do
     let(:script_name) { 'furnish_destination' }
   end

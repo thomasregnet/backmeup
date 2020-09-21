@@ -14,7 +14,11 @@ RSpec.describe Backmeup::CreateDestinationAction do
   end
 
   it_behaves_like 'an action'
-  it_behaves_like 'a hookable action'
+
+  it_behaves_like 'a hookable action' do
+    let(:script_name) { 'create_destination' }
+  end
+
   it_behaves_like 'a scriptable action' do
     let(:script_name) { 'create_destination' }
   end

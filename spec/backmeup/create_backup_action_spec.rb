@@ -9,12 +9,16 @@ RSpec.describe Backmeup::CreateBackupAction do
     described_class.new(
       destination:          'my_destination',
       previous_destination: nil,
-      root:                 Backmeup::Root.new('root')
+      root:                 Backmeup::Root.new('tmp')
     )
   end
 
   it_behaves_like 'an action'
-  it_behaves_like 'a hookable action'
+
+  it_behaves_like 'a hookable action' do
+    let(:script_name) { 'create_backup' }
+  end
+
   it_behaves_like 'a scriptable action' do
     let(:script_name) { 'create_backup' }
   end
