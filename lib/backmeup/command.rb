@@ -3,6 +3,7 @@
 require 'forwardable'
 
 module Backmeup
+  # TTY helper methods
   class Command
     extend Forwardable
 
