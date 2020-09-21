@@ -3,17 +3,6 @@
 require 'backmeup/commands/create'
 
 RSpec.describe Backmeup::Commands::Create do
-  # it 'executes `create` command successfully' do
-  #   output = StringIO.new
-  #   repository = 'tmp'
-  #   options = {}
-  #   command = Backmeup::Commands::Create.new(repository, options)
-
-  #   command.execute(output: output)
-
-  #   expect(output.string).to eq("OK\n")
-  # end
-
   describe '.execute' do
     let(:repository) { 'tmp' }
 
@@ -31,21 +20,24 @@ RSpec.describe Backmeup::Commands::Create do
     end
 
     it 'calls Expire.newest' do
-      expect(Expire).to receive(:newest)
+      allow(Expire).to receive(:newest)
       create = described_class.new('tmp', {})
       create.execute
+      expect(Expire).to have_received(:newest).at_least(2).times
     end
 
     it 'calls Backmeup::CreateDestinationAction.perform' do
-      expect(Backmeup::CreateDestinationAction).to receive(:perform)
+      allow(Backmeup::CreateDestinationAction).to receive(:perform)
       create = described_class.new('tmp', {})
       create.execute
+      expect(Backmeup::CreateDestinationAction).to have_received(:perform)
     end
 
     it 'calls Backmeup::CreateBackupAction.perform' do
-      expect(Backmeup::CreateBackupAction).to receive(:perform)
+      allow(Backmeup::CreateBackupAction).to receive(:perform)
       create = described_class.new('tmp', {})
       create.execute
+      expect(Backmeup::CreateBackupAction).to have_received(:perform)
     end
   end
 end
