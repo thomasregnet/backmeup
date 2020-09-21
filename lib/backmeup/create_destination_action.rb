@@ -8,6 +8,7 @@ module Backmeup
     include DestinationLayout
     include PreviousDestinationLayout
     include ScriptableAction
+    prepend HookableAction
 
     def self.perform(args)
       new(**args).perform

@@ -5,6 +5,7 @@ module Backmeup
   class FurnishDestinationAction < ActionBase
     include ScriptableAction
     include DestinationLayout
+    prepend HookableAction
 
     def self.perform(args)
       new(**args).perform

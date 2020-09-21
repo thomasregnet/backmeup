@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'support/shared_examples_for_actions'
+require 'support/shared_examples_for_hookable_actions'
 require 'support/shared_examples_for_scriptable_actions'
 
 RSpec.describe Backmeup::CreateBackupAction do
@@ -13,6 +14,7 @@ RSpec.describe Backmeup::CreateBackupAction do
   end
 
   it_behaves_like 'an action'
+  it_behaves_like 'a hookable action'
   it_behaves_like 'a scriptable action' do
     let(:script_name) { 'create_backup' }
   end
