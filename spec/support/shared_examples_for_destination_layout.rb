@@ -2,14 +2,14 @@
 
 RSpec.shared_examples 'a DestinationLayout' do
   describe 'Methods defined in DestinationLayout' do
-    it { should respond_to(:destination_data) }
-    it { should respond_to(:destination_stderr) }
-    it { should respond_to(:destination_stdout) }
+    it { is_expected.to respond_to(:destination_data) }
+    it { is_expected.to respond_to(:destination_stderr) }
+    it { is_expected.to respond_to(:destination_stdout) }
   end
 
   describe 'Methods the including class must define' do
-    it { should respond_to(:destination) }
-    it { should respond_to(:root) }
+    it { is_expected.to respond_to(:destination) }
+    it { is_expected.to respond_to(:root) }
   end
 
   let(:destination) { 'my_destination' }

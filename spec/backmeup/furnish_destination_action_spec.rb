@@ -9,7 +9,8 @@ RSpec.describe Backmeup::FurnishDestinationAction do
   subject do
     described_class.new(
       destination: 'my_destination',
-      root:        Backmeup::Root.new('tmp'))
+      root:        Backmeup::Root.new('tmp')
+    )
   end
 
   it_behaves_like 'an action'
@@ -108,7 +109,7 @@ RSpec.describe Backmeup::FurnishDestinationAction do
     let(:env) do
       described_class.new(
         destination: 'my_destination',
-        root: Backmeup::Root.new('root')
+        root:        Backmeup::Root.new('root')
       ).send(:env)
     end
 

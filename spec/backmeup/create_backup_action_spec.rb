@@ -7,9 +7,9 @@ require 'support/shared_examples_for_scriptable_actions'
 RSpec.describe Backmeup::CreateBackupAction do
   subject do
     described_class.new(
-      destination: 'my_destination',
+      destination:          'my_destination',
       previous_destination: nil,
-      root: Backmeup::Root.new('root')
+      root:                 Backmeup::Root.new('root')
     )
   end
 
@@ -51,9 +51,9 @@ RSpec.describe Backmeup::CreateBackupAction do
         )
 
         described_class.perform(
-          destination: destination,
+          destination:          destination,
           previous_destination: nil,
-          root: Backmeup::Root.new(repository)
+          root:                 Backmeup::Root.new(repository)
         )
         expect(Pathname.new(expected_file)).to exist
       end
@@ -62,9 +62,9 @@ RSpec.describe Backmeup::CreateBackupAction do
     context 'with a create_backup script' do
       let(:creator) do
         described_class.new(
-          destination: destination,
+          destination:          destination,
           previous_destination: nil,
-          root: Backmeup::Root.new(repository)
+          root:                 Backmeup::Root.new(repository)
         )
       end
 
@@ -129,7 +129,6 @@ RSpec.describe Backmeup::CreateBackupAction do
           .to eq(File.join('root', 'backups', 'previous_destination'))
       end
     end
-
 
     context 'without a previous_destination' do
       let(:env) do

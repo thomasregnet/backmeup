@@ -14,6 +14,7 @@ RSpec.describe Backmeup::Commands::Create do
 
   describe '.execute' do
     let(:repository) { 'tmp' }
+
     before do
       FileUtils.mkpath(File.join(repository, 'backups'))
 

@@ -16,7 +16,7 @@ module Backmeup
       require_relative 'version'
       puts "v#{Backmeup::VERSION}"
     end
-    map %w(--version -v) => :version
+    map %w[--version -v] => :version
 
     desc 'create REPOSITORY', 'Command description...'
     method_option :help, aliases: '-h', type: :boolean,

@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 RSpec.shared_examples 'a hookable action' do
-  it { should respond_to(:perform) }
-  it { should respond_to(:root) }
+  it { is_expected.to respond_to(:perform) }
+  it { is_expected.to respond_to(:root) }
 
   describe '#cmd' do
     it 'returns an instance of TTY::Command' do

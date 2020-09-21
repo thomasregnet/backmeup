@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 RSpec.shared_examples 'a scriptable action' do
-  it { should respond_to(:perform) }
+  it { is_expected.to respond_to(:perform) }
 
   describe '#perform' do
     context 'when a script exists' do
