@@ -28,17 +28,19 @@ RSpec.describe Backmeup::CreateDestinationAction do
     let(:destination) { 'my_destination' }
 
     context 'without a create_destination script' do
-      before { FileUtils.mkpath(File.join('tmp', 'backups')) }
+      before do
+        FileUtils.mkpath(File.join('tmp', 'backups'))
 
-      after { FileUtils.rm_rf(File.join('tmp', 'backups')) }
-
-      it 'creates the destination' do
         described_class.perform(
           destination:          destination,
           previous_destination: nil,
           root:                 root
         )
+      end
 
+      after { FileUtils.rm_rf(File.join('tmp', 'backups')) }
+
+      it 'creates the destination' do
         expect(Pathname.new(File.join('tmp', 'backups', destination)))
           .to exist
       end
