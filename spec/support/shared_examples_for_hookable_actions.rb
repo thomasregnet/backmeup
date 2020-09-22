@@ -10,6 +10,12 @@ RSpec.shared_examples 'a hookable action' do
     end
   end
 
+  describe '#env' do
+    it 'returns a hash' do
+      expect(subject.send(:env)).to be_instance_of(Hash)
+    end
+  end
+
   describe '#script_name' do
     it 'returns the script name as String' do
       expect(subject.send(:script_name)).to be_instance_of(String)
