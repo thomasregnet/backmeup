@@ -28,11 +28,6 @@ module Backmeup
       previous_destination_env({ 'DESTINATION_PATH' => destination_path })
     end
 
-    def perform_with_script
-      super
-      furnish_destination
-    end
-
     def perform_without_script
       FileUtils.mkpath(destination_path)
       furnish_destination
