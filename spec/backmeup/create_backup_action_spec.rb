@@ -82,10 +82,10 @@ RSpec.describe Backmeup::CreateBackupAction do
           previous_destination: nil,
           root:                 Backmeup::Root.new(repository)
         )
-
-        allow(creator).to receive(:cmd).and_return(cmd)
-        allow(cmd).to receive(:run)
-
+        allow(TTY::Command).to receive(:new).and_return(cmd)
+        result = spy
+        allow(cmd).to receive(:run).and_return(result)
+        allow(result).to receive(:status).and_return(0)
         creator.perform
       end
 

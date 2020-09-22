@@ -47,6 +47,8 @@ RSpec.describe Backmeup::CreateDestinationAction do
     end
 
     context 'with a create_destination script' do
+      let(:cmd) { instance_double('TTY::Command') }
+
       let(:creator) do
         described_class.new(
           destination:          destination,
@@ -56,7 +58,6 @@ RSpec.describe Backmeup::CreateDestinationAction do
       end
 
       let(:bin_path) { File.join('tmp', 'bin') }
-      let(:cmd) { instance_double('TTY::Command') }
 
       before do
         FileUtils.mkpath(bin_path)
@@ -64,7 +65,9 @@ RSpec.describe Backmeup::CreateDestinationAction do
         FileUtils.touch(script_path)
         FileUtils.chmod(0o755, script_path)
 
-        allow(creator).to receive(:cmd).and_return(cmd)
+        allow(TTY::Command).to receive(:new).and_return(cmd)
+        result = spy
+        allow(result).to receive(:status).and_return(0)
         allow(cmd).to receive(:run).with(
           'tmp/bin/create_destination',
           {
@@ -74,7 +77,7 @@ RSpec.describe Backmeup::CreateDestinationAction do
               'PREVIOUS_DESTINATION_PATH' => nil
             }
           }
-        )
+        ).and_return(result)
       end
 
       after { FileUtils.rm_rf(bin_path) }
