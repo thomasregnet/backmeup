@@ -4,41 +4,21 @@ module Backmeup
   # Execute before and after hooks
   module HookableAction
     def perform
-      perform_before_hook
+      perform_hook('before')
       super
-      perform_after_hook
+      perform_hook('after')
     end
 
     private
 
-    def after_hook_exist?
-      File.exist?(after_hook_path)
-    end
+    def perform_hook(point)
+      hook_name = "#{point}_#{script_name}"
 
-    def after_hook_path
-      hook_name = "after_#{script_name}"
-      File.join(root.bin, hook_name)
-    end
-
-    def before_hook_exist?
-      File.exist?(before_hook_path)
-    end
-
-    def before_hook_path
-      hook_name = "before_#{script_name}"
-      File.join(root.bin, hook_name)
-    end
-
-    def perform_after_hook
-      return unless after_hook_exist?
-
-      cmd.run(after_hook_path, env: env)
-    end
-
-    def perform_before_hook
-      return unless before_hook_exist?
-
-      cmd.run(before_hook_path, env: env)
+      ScriptIfExist.run(
+        env:         env,
+        root:        root,
+        script_name: hook_name
+      )
     end
   end
 end

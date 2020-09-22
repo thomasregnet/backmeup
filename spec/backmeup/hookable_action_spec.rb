@@ -11,10 +11,6 @@ module TestBackmeup
       {}
     end
 
-    def cmd
-      TTY::Command.new
-    end
-
     def root
       @root ||= Backmeup::Root.new('tmp')
     end
@@ -48,17 +44,19 @@ RSpec.describe Backmeup::HookableAction do
           FileUtils.chmod(0o755, hook_path)
 
           allow(TTY::Command).to receive(:new).and_return(cmd)
-          allow(cmd).to receive(:run)
+          result = spy
+          allow(cmd).to receive(:run).and_return(result)
+          allow(result).to receive(:status).and_return(0)
         end
 
-        it 'calls #perform_with_script' do
+        it 'calls the before hook' do
           hookable.perform
           expect(cmd).to have_received(:run)
         end
       end
 
       context 'when no before hook exist?' do
-        it 'calls #perform_without_script' do
+        it 'calls does not call run on TTY::command' do
           hookable.perform
           expect(cmd).not_to have_received(:run)
         end
