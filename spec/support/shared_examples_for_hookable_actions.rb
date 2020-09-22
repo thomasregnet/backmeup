@@ -4,11 +4,11 @@ RSpec.shared_examples 'a hookable action' do
   it { is_expected.to respond_to(:perform) }
   it { is_expected.to respond_to(:root) }
 
-  describe '#cmd' do
-    it 'returns an instance of TTY::Command' do
-      expect(subject.send(:cmd)).to be_instance_of(TTY::Command)
-    end
-  end
+  # describe '#cmd' do
+  #   it 'returns an instance of TTY::Command' do
+  #     expect(subject.send(:cmd)).to be_instance_of(TTY::Command)
+  #   end
+  # end
 
   describe '#env' do
     it 'returns a hash' do

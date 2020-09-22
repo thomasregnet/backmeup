@@ -92,9 +92,12 @@ RSpec.describe Backmeup::FurnishDestinationAction do
 
         script_path = File.join(bin_path, 'furnish_destination')
         FileUtils.touch(script_path)
+        FileUtils.chmod(0o755, script_path)
 
         allow(TTY::Command).to receive(:new).and_return(cmd)
-        allow(cmd).to receive(:run)
+        result = spy
+        allow(cmd).to receive(:run).and_return(result)
+        allow(result).to receive(:status).and_return(0)
       end
 
       after { FileUtils.rm_rf(bin_path) }

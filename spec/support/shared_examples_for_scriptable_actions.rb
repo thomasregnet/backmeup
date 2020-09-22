@@ -4,27 +4,29 @@ RSpec.shared_examples 'a scriptable action' do
   it { is_expected.to respond_to(:perform) }
 
   describe '#perform' do
-    # We allow RSpec/SubjectStub because we want to ensure
-    # that the expected method is called.
-    # We're not interested in the method itself.
-    # rubocop:disable RSpec/SubjectStub
     context 'when a script exists' do
+      let(:cmd) { spy }
+
       before do
         FileUtils.mkpath(subject.root.bin)
         script_path = File.join(subject.root.bin, script_name)
         FileUtils.touch(script_path)
         FileUtils.chmod(0o755, script_path)
-        allow(subject).to receive(:perform_with_script)
+        allow(TTY::Command).to receive(:new).and_return(cmd)
       end
 
       after { FileUtils.rm_rf(File.join(subject.root.bin)) }
 
       it 'calls #perform_with_script' do
         subject.perform
-        expect(subject).to have_received(:perform_with_script)
+        expect(cmd).to have_received(:run)
       end
     end
 
+    # We allow RSpec/SubjectStub because we want to ensure
+    # that the expected method is called.
+    # We're not interested in the method itself.
+    # rubocop:disable RSpec/SubjectStub
     context 'when no script exists' do
       before do
         allow(subject).to receive(:perform_without_script)
@@ -36,12 +38,6 @@ RSpec.shared_examples 'a scriptable action' do
       end
     end
     # rubocop:enable RSpec/SubjectStub
-  end
-
-  describe '#cmd (protected)' do
-    it 'returns an instance of TTY::Command' do
-      expect(subject.send(:cmd)).to be_instance_of(TTY::Command)
-    end
   end
 
   describe '#env (protected)' do

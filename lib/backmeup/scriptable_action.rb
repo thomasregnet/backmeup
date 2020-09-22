@@ -4,30 +4,22 @@ module Backmeup
   # Implement #perform for action and lookup for action-scripts
   module ScriptableAction
     def perform
-      script_exists? ? perform_with_script : perform_without_script
+      scipt_if_exist || perform_without_script
     end
 
     protected
 
-    def cmd
-      TTY::Command.new
-    end
-
-    def perform_with_script
-      cmd.run(script_path, env: env)
-    end
-
-    def script_exists?
-      root.bin.glob(script_name)[0] ? true : false
+    def scipt_if_exist
+      ScriptIfExist.run(
+        env:         env,
+        root:        root,
+        script_name: script_name
+      )
     end
 
     def script_name
       match = self.class.to_s.match(/\A.*::(.+)Action\z/) || return
       match[1].underscore
-    end
-
-    def script_path
-      @script_path ||= File.join(root.bin, script_name)
     end
   end
 end
