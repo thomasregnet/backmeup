@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'tty/file'
+
 module Backmeup
   # Base class for examples
   class ExampleBase
