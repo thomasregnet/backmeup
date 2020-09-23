@@ -21,7 +21,7 @@ module Backmeup
           FileUtils.mkpath(File.join(path, dir))
         end
 
-        ExampleBackupRsync.create(path: path)
+        ::Backmeup::ExampleBackupRsync.create(path: path)
 
         output.puts "created #{path}"
       end
