@@ -1,0 +1,4 @@
+#!/bin/sh
+# -*shell*-
+
+exit 0
