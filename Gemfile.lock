@@ -33,6 +33,7 @@ PATH
     backmeup (0.1.0)
       activesupport
       tty-command
+      tty-file
       zeitwerk
 
 GEM
