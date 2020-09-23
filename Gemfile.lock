@@ -32,6 +32,7 @@ PATH
   specs:
     backmeup (0.1.0)
       activesupport
+      thor
       tty-command
       tty-file
       zeitwerk
