@@ -21,8 +21,9 @@ module Backmeup
           FileUtils.mkpath(File.join(path, dir))
         end
 
-        example_backup_rsync
-        FileUtils.chmod(0o755, Dir.glob(File.join(path, 'examples/*')))
+        # example_backup_rsync
+        # FileUtils.chmod(0o755, Dir.glob(File.join(path, 'examples/*')))
+        ExampleBackupRsync.create(path: path)
 
         output.puts "created #{path}"
       end
