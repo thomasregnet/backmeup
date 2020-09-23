@@ -35,6 +35,11 @@ RSpec.describe Backmeup::Commands::Init do
       expect(config_path).to be_exist
     end
 
+    it 'adds the "backup_rsync" example' do
+      example_path = Pathname(File.join(path, 'examples', 'backup_rsync'))
+      expect(example_path).to be_executable
+    end
+
     it 'prints out the expected message' do
       expect(output.string).to eq("created tmp/my_backups\n")
     end

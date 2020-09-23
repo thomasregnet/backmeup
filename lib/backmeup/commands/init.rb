@@ -21,10 +21,25 @@ module Backmeup
           FileUtils.mkpath(File.join(path, dir))
         end
 
-        TTY::File.copy_directory('examples', File.join(path, 'examples'))
+        example_backup_rsync
         FileUtils.chmod(0o755, Dir.glob(File.join(path, 'examples/*')))
 
         output.puts "created #{path}"
+      end
+
+      private
+
+      def example_backup_rsync
+        script = <<~SCRIPT
+          #!/bin/sh
+          # -*shell*-
+
+          exit 0
+        SCRIPT
+
+        TTY::File.create_file(
+          File.join(path, 'examples', 'backup_rsync'), script
+        )
       end
     end
   end
