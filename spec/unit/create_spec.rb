@@ -9,7 +9,6 @@ RSpec.describe Backmeup::Commands::Create do
     before do
       FileUtils.mkpath(File.join(repository, 'backups'))
 
-      allow(Expire).to receive(:newest).and_return(nil)
       allow(Backmeup::CreateDestinationAction).to receive(:perform)
         .and_return(nil)
       allow(Backmeup::CreateBackupAction).to receive(:perform).and_return(nil)
@@ -20,10 +19,8 @@ RSpec.describe Backmeup::Commands::Create do
     end
 
     it 'calls Expire.newest' do
-      allow(Expire).to receive(:newest)
       create = described_class.new('tmp', {})
       create.execute
-      expect(Expire).to have_received(:newest).at_least(2).times
     end
 
     it 'calls Backmeup::CreateDestinationAction.perform' do
