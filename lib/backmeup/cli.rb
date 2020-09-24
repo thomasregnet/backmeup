@@ -1,16 +1,7 @@
 # frozen_string_literal: true
 
-require 'active_support'
-require 'active_support/core_ext'
-require 'expire'
+require 'backmeup'
 require 'thor'
-require 'tty-command'
-require 'tty-file'
-require 'zeitwerk'
-
-loader = Zeitwerk::Loader.for_gem
-loader.inflector.inflect('cli' => 'CLI')
-loader.setup
 
 module Backmeup
   # Handle the application command line parsing

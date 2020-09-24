@@ -5,4 +5,5 @@ gemspec
 
 gem 'rake', '~> 12.0'
 gem 'rspec', '~> 3.0'
-gem 'expire', :git => 'https://github.com/thomasregnet/expire'
+# gem 'expire', :git => 'https://github.com/thomasregnet/expire'
+gem 'expire', path: '../expire'
