@@ -43,7 +43,7 @@ module Backmeup
       end
 
       def previous_destination
-        @previous_destination ||= Expire.newest(repository)
+        @previous_destination ||= Expire.newest(root.backups_path).to_s
       end
 
       def root
