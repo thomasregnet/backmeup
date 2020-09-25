@@ -30,17 +30,8 @@ module BackmeupTestTool
       FileUtils.rm_rf(path)
     end
 
-    def expected_for(iteration = nil)
-      expected_files = ['test']
-
-      return expected_files unless iteration
-
-      ('A'..iteration).each { |letter| expected_files << "iteration_#{letter}" }
-
-      expected_files << "only_#{iteration}"
-    end
-
     def match_dir?(dir, iteration = nil)
+      raise_on_invalid_iteration(iteration)
       expected = expected_for(iteration)
       expected.each do |file|
         file_path = File.join(dir, file)
@@ -51,6 +42,7 @@ module BackmeupTestTool
     end
 
     def mutate(iteration)
+      raise_on_invalid_iteration(iteration)
       Dir["#{path}/only_*"].each { |file| FileUtils.rm(file) }
 
       create_file("iteration_#{iteration}", "#{iteration}\n")
@@ -65,6 +57,25 @@ module BackmeupTestTool
     def create_file(name, content)
       file_path = File.join(path, name)
       TTY::File.create_file(file_path, content)
+    end
+
+    private
+
+    def expected_for(iteration = nil)
+      expected_files = ['test']
+
+      return expected_files unless iteration
+
+      ('A'..iteration).each { |letter| expected_files << "iteration_#{letter}" }
+
+      expected_files << "only_#{iteration}"
+    end
+
+    def raise_on_invalid_iteration(iteration)
+      return unless iteration
+      return if iteration.match?(/\A[A-Z]\z/)
+
+      raise "Invalid iteration #{iteration}. An iteration must be a capital letter (A-Z)"
     end
   end
 end
