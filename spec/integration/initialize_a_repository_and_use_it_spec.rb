@@ -1,7 +1,10 @@
 # frozen_string_literal: true
 
 require 'tty-file'
+require 'support/data_dir_generator'
+require 'support/rewind_backups'
 
+# rubocop:disable RSpec/BeforeAfterAll
 RSpec.describe 'initialize a repository and use it' do
   def backups
     Dir.glob("#{File.join(repository_path, 'backups')}/*")
@@ -11,23 +14,20 @@ RSpec.describe 'initialize a repository and use it' do
     @repository_path ||= File.join('tmp', 'my_repository')
   end
 
-  def data_path
-    @data_path ||= File.join('tmp', 'my_data')
+  def data_dir
+    @data_dir ||= BackmeupTestTool::DataDirGenerator.populate
   end
 
-  # rubocop:disable RSpec/BeforeAfterAll
   before(:all) do
+    data_dir
     `backmeup init #{repository_path}`
 
-    FileUtils.mkpath(data_path)
-    TTY::File.create_file(File.join(data_path, 'test'), "test\n")
-
     filelist_path = File.join(repository_path, 'config', 'filelist')
-    TTY::File.create_file(filelist_path, data_path)
+    TTY::File.create_file(filelist_path, data_dir.path)
   end
 
   after(:all) do
-    FileUtils.rm_rf(data_path)
+    data_dir.destroy
     FileUtils.rm_rf(repository_path)
   end
 
@@ -59,9 +59,23 @@ RSpec.describe 'initialize a repository and use it' do
     end
 
     it 'saved the data' do
-      test_path = File.join(backups.first, 'data', 'my_data', 'test')
-      expect(File.read(test_path)).to eq("test\n")
+      backup_dir = File.join(backups.max, 'data', 'my_data')
+      expect(data_dir.match_dir?(backup_dir)).to be true
     end
   end
-  # rubocop:enable RSpec/BeforeAfterAll
+
+  describe 'calling `backmeup create` a second time' do
+    before(:all) do
+      BackmeupTestTool::RewindBackups.perform
+
+      data_dir.mutate('A')
+      `backmeup create #{repository_path}`
+    end
+
+    it 'created a second backup' do
+      backup_dir = File.join(backups.max, 'data', 'my_data')
+      expect(data_dir.match_dir?(backup_dir, 'A')).to be true
+    end
+  end
 end
+# rubocop:enable RSpec/BeforeAfterAll
