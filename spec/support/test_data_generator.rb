@@ -4,7 +4,7 @@ require 'tty-file'
 
 module BackmeupTestTool
   # Generate and mutate test data
-  class DataDirGenerator
+  class TestDataGenerator
     DEFAULT_PATH = File.join('tmp', 'my_data')
 
     def self.create(**args)
