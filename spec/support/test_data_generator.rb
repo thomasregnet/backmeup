@@ -7,12 +7,8 @@ module BackmeupTestTool
   class TestDataGenerator
     DEFAULT_PATH = File.join('tmp', 'my_data')
 
-    def self.create(**args)
-      new(**args).create
-    end
-
     def self.populate(**args)
-      new(**args).create.populate
+      new(**args).populate
     end
 
     def initialize(path: DEFAULT_PATH)
@@ -20,11 +16,6 @@ module BackmeupTestTool
     end
 
     attr_reader :path
-
-    def create
-      FileUtils.mkpath(path)
-      self
-    end
 
     def destroy
       FileUtils.rm_rf(path)
@@ -50,6 +41,7 @@ module BackmeupTestTool
     end
 
     def populate
+      FileUtils.mkpath(path)
       create_file('test', "test\n")
       self
     end
