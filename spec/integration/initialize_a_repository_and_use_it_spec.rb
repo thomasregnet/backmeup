@@ -68,13 +68,13 @@ RSpec.describe 'initialize a repository and use it' do
     before(:all) do
       BackmeupTestTool::RewindBackups.perform
 
-      test_data.mutate('A')
+      test_data.mutate
       `backmeup create #{repository_path}`
     end
 
     it 'created a second backup' do
       backup_dir = File.join(backups.max, 'data', 'my_data')
-      expect(test_data.match_dir?(backup_dir, 'A')).to be true
+      expect(test_data.match_dir?(backup_dir)).to be true
     end
   end
 end

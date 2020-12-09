@@ -15,15 +15,14 @@ module BackmeupTestTool
       @path = path
     end
 
-    attr_reader :path
+    attr_reader :mutation, :path
 
     def destroy
       FileUtils.rm_rf(path)
     end
 
-    def match_dir?(dir, iteration = nil)
-      raise_on_invalid_iteration(iteration)
-      expected = expected_for(iteration)
+    def match_dir?(dir)
+      expected = expected_for
       expected.each do |file|
         file_path = File.join(dir, file)
         return false unless File.exist?(file_path)
@@ -32,17 +31,19 @@ module BackmeupTestTool
       true
     end
 
-    def mutate(iteration)
-      raise_on_invalid_iteration(iteration)
+    def mutate
+      @mutation = mutation ? mutation.next : 'A'
+
       Dir["#{path}/only_*"].each { |file| FileUtils.rm(file) }
 
-      create_file("iteration_#{iteration}", "#{iteration}\n")
-      create_file("only_#{iteration}", "#{iteration}\n")
+      create_file("mutation_#{mutation}", "#{mutation}\n")
+      create_file("only_#{mutation}", "#{mutation}\n")
     end
 
     def populate
       FileUtils.mkpath(path)
       create_file('test', "test\n")
+      mutate
       self
     end
 
@@ -53,21 +54,12 @@ module BackmeupTestTool
 
     private
 
-    def expected_for(iteration = nil)
+    def expected_for
       expected_files = ['test']
 
-      return expected_files unless iteration
+      ('A'..mutation).each { |letter| expected_files << "mutation_#{letter}" }
 
-      ('A'..iteration).each { |letter| expected_files << "iteration_#{letter}" }
-
-      expected_files << "only_#{iteration}"
-    end
-
-    def raise_on_invalid_iteration(iteration)
-      return unless iteration
-      return if iteration.match?(/\A[A-Z]\z/)
-
-      raise "Invalid iteration #{iteration}. An iteration must be a capital letter (A-Z)"
+      expected_files << "only_#{mutation}"
     end
   end
 end
