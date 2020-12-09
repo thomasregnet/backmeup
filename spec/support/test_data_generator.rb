@@ -47,12 +47,12 @@ module BackmeupTestTool
       self
     end
 
+    private
+
     def create_file(name, content)
       file_path = File.join(path, name)
       TTY::File.create_file(file_path, content)
     end
-
-    private
 
     def expected_for
       expected_files = ['test']
