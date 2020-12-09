@@ -5,14 +5,22 @@ module TestBackmeup
   class WithHooks
     prepend Backmeup::HookableAction
 
-    def perform; end
+    def perform
+      @performed = true
+    end
+
+    attr_reader :performed
+
+    def performed?
+      performed
+    end
 
     def env
-      {}
+      :fake_env
     end
 
     def root
-      @root ||= Backmeup::Root.new('tmp')
+      :fake_root
     end
 
     def script_name
@@ -24,43 +32,21 @@ end
 RSpec.describe Backmeup::HookableAction do
   let(:hookable) { TestBackmeup::WithHooks.new }
 
-  %w[before after].each do |point|
-    describe "#{point} hook" do
-      let(:cmd) { spy }
-      let(:bin_path) { File.join(hookable.root.base_path, 'bin') }
+  before do
+    allow(Backmeup::ScriptIfExist).to receive(:run)
+      .with(env: :fake_env, root: :fake_root, script_name: 'before_test_script')
 
-      before do
-        FileUtils.mkpath(bin_path)
-      end
+    allow(Backmeup::ScriptIfExist).to receive(:run)
+      .with(env: :fake_env, root: :fake_root, script_name: 'after_test_script')
+  end
 
-      after { FileUtils.rm_rf(bin_path) }
+  it 'calls #perform' do
+    hookable.perform
+    expect(hookable).to be_performed
+  end
 
-      context "when a #{point} hook exist?" do
-        before do
-          hook_name = "#{point}_#{hookable.script_name}"
-          hook_path = File.join(bin_path, hook_name)
-
-          FileUtils.touch(hook_path)
-          FileUtils.chmod(0o755, hook_path)
-
-          allow(TTY::Command).to receive(:new).and_return(cmd)
-          result = spy
-          allow(cmd).to receive(:run).and_return(result)
-          allow(result).to receive(:status).and_return(0)
-        end
-
-        it 'calls the before hook' do
-          hookable.perform
-          expect(cmd).to have_received(:run)
-        end
-      end
-
-      context 'when no before hook exist?' do
-        it 'calls does not call run on TTY::command' do
-          hookable.perform
-          expect(cmd).not_to have_received(:run)
-        end
-      end
-    end
+  it 'calls the hooks' do
+    hookable.perform
+    expect(Backmeup::ScriptIfExist).to have_received(:run).twice
   end
 end
