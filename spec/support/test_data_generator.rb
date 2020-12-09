@@ -22,8 +22,7 @@ module BackmeupTestTool
     end
 
     def match_dir?(dir)
-      expected = expected_for
-      expected.each do |file|
+      expected_files.each do |file|
         file_path = File.join(dir, file)
         return false unless File.exist?(file_path)
       end
@@ -54,7 +53,7 @@ module BackmeupTestTool
       TTY::File.create_file(file_path, content)
     end
 
-    def expected_for
+    def expected_files
       expected_files = ['test']
 
       ('A'..mutation).each { |letter| expected_files << "mutation_#{letter}" }
