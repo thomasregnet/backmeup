@@ -69,6 +69,41 @@ RSpec.describe Backmeup::CreateBackupAction do
     end
   end
 
+  describe '#perform' do
+    let(:backup_creator) do
+      described_class.new(
+        destination:          :fake_destination,
+        previous_destination: :fake_previous_destination,
+        root:                 :fake_root
+      )
+    end
+
+    before do
+      allow(backup_creator).to receive(:env).and_return({}).exactly(3).times
+      allow(backup_creator).to receive(:root).and_return(:fake_root).exactly(3).times
+      allow(backup_creator).to receive(:perform_without_script)
+    end
+
+    context 'without a script' do
+      it 'calls #perform_without_script' do
+        allow(Backmeup::ScriptIfExist).to receive(:run).and_return(false).exactly(3).times
+        backup_creator.perform
+        expect(backup_creator).to have_received(:perform_without_script)
+      end
+    end
+
+    context 'with a script' do
+      before do
+        allow(Backmeup::ScriptIfExist).to receive(:run).and_return(true).exactly(3).times
+      end
+
+      it 'does not call #perform_without_script' do
+        backup_creator.perform
+        expect(backup_creator).not_to have_received(:perform_without_script)
+      end
+    end
+  end
+
   describe '#env' do
     context 'with a previous_destination' do
       let(:env) do
