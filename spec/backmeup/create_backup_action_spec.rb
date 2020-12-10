@@ -67,32 +67,6 @@ RSpec.describe Backmeup::CreateBackupAction do
         expect(Pathname.new(expected_file)).to exist
       end
     end
-
-    context 'with a create_backup script' do
-      let(:cmd) { instance_double('TTY::Command') }
-
-      before do
-        bin_dir = File.join(repository, 'bin')
-        FileUtils.mkpath(bin_dir)
-        FileUtils.touch(File.join(bin_dir, 'create_backup'))
-        FileUtils.chmod(0o755, File.join(bin_dir, 'create_backup'))
-
-        creator = described_class.new(
-          destination:          destination,
-          previous_destination: nil,
-          root:                 Backmeup::Root.new(repository)
-        )
-        allow(TTY::Command).to receive(:new).and_return(cmd)
-        result = spy
-        allow(cmd).to receive(:run).and_return(result)
-        allow(result).to receive(:status).and_return(0)
-        creator.perform
-      end
-
-      it 'calls that script' do
-        expect(cmd).to have_received(:run)
-      end
-    end
   end
 
   describe '#env' do
