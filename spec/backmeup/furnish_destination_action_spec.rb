@@ -84,27 +84,20 @@ RSpec.describe Backmeup::FurnishDestinationAction do
     end
 
     context 'when a "furnish_destination" script exists' do
-      let(:bin_path) { File.join('tmp', 'bin') }
-      let(:cmd) { instance_double('TTY::Command') }
+      let(:furnisher) { described_class.new(destination: :fake_destination, root: :fake_root) }
 
       before do
-        FileUtils.mkpath(bin_path)
+        allow(furnisher).to receive(:env).and_return({}).exactly(3).times
+        allow(furnisher).to receive(:root).and_return(:fake_root).exactly(3).times
+        allow(Backmeup::ScriptIfExist).to receive(:run).and_return(true).exactly(3).times
 
-        script_path = File.join(bin_path, 'furnish_destination')
-        FileUtils.touch(script_path)
-        FileUtils.chmod(0o755, script_path)
-
-        allow(TTY::Command).to receive(:new).and_return(cmd)
-        result = spy
-        allow(cmd).to receive(:run).and_return(result)
-        allow(result).to receive(:status).and_return(0)
+        allow(furnisher).to receive(:perform_without_script)
       end
 
-      after { FileUtils.rm_rf(bin_path) }
 
-      it 'calls cmd.run' do
-        described_class.perform(destination: destination, root: root)
-        expect(cmd).to have_received(:run)
+      it 'does not call perform_without_script' do
+        furnisher.perform
+        expect(furnisher).not_to have_received(:perform_without_script)
       end
     end
   end
