@@ -67,30 +67,39 @@ RSpec.describe Backmeup::CreateBackupAction do
         expect(Pathname.new(expected_file)).to exist
       end
     end
+  end
 
-    context 'with a create_backup script' do
-      let(:cmd) { instance_double('TTY::Command') }
+  describe '#perform' do
+    let(:backup_creator) do
+      described_class.new(
+        destination:          :fake_destination,
+        previous_destination: :fake_previous_destination,
+        root:                 :fake_root
+      )
+    end
 
+    before do
+      allow(backup_creator).to receive(:env).and_return({}).exactly(3).times
+      allow(backup_creator).to receive(:root).and_return(:fake_root).exactly(3).times
+      allow(backup_creator).to receive(:perform_without_script)
+    end
+
+    context 'without a script' do
+      it 'calls #perform_without_script' do
+        allow(Backmeup::ScriptIfExist).to receive(:run).and_return(false).exactly(3).times
+        backup_creator.perform
+        expect(backup_creator).to have_received(:perform_without_script)
+      end
+    end
+
+    context 'with a script' do
       before do
-        bin_dir = File.join(repository, 'bin')
-        FileUtils.mkpath(bin_dir)
-        FileUtils.touch(File.join(bin_dir, 'create_backup'))
-        FileUtils.chmod(0o755, File.join(bin_dir, 'create_backup'))
-
-        creator = described_class.new(
-          destination:          destination,
-          previous_destination: nil,
-          root:                 Backmeup::Root.new(repository)
-        )
-        allow(TTY::Command).to receive(:new).and_return(cmd)
-        result = spy
-        allow(cmd).to receive(:run).and_return(result)
-        allow(result).to receive(:status).and_return(0)
-        creator.perform
+        allow(Backmeup::ScriptIfExist).to receive(:run).and_return(true).exactly(3).times
       end
 
-      it 'calls that script' do
-        expect(cmd).to have_received(:run)
+      it 'does not call #perform_without_script' do
+        backup_creator.perform
+        expect(backup_creator).not_to have_received(:perform_without_script)
       end
     end
   end
