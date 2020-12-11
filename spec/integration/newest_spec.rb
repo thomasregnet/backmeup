@@ -1,16 +1,20 @@
-RSpec.describe "`backmeup newest` command", type: :cli do
-  it "executes `backmeup help newest` command successfully" do
-    output = `backmeup help newest`
-    expected_output = <<-OUT
-Usage:
-  backmeup newest
+# frozen_string_literal: true
 
-Options:
-  -h, [--help], [--no-help]  # Display usage information
+RSpec.describe '`backmeup newest` command', type: :cli do
+  let(:expected_output) do
+    <<~OUT
+      Usage:
+        backmeup newest REPOSITORY
 
-Command description...
+      Options:
+        -h, [--help], [--no-help]  # Display usage information
+
+      Print the newest backup of REPOSITORY
     OUT
+  end
 
+  it 'executes `backmeup help newest` command successfully' do
+    output = `backmeup help newest`
     expect(output).to eq(expected_output)
   end
 end
