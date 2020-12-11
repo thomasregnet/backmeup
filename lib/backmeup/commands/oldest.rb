@@ -4,8 +4,8 @@ require_relative '../command'
 
 module Backmeup
   module Commands
-    # Print the newest backup
-    class Newest < Backmeup::Command
+    # Print the oldest backup of the repository
+    class Oldest < Backmeup::Command
       def initialize(repository, options)
         @options    = options
         @repository = repository
@@ -14,10 +14,10 @@ module Backmeup
       attr_reader :repository
 
       def execute(input: $stdin, output: $stdout)
-        root = Backmeup::Root.new(repository)
-        newest = Expire.newest(root.backups_path) || return # Expire.newest returns nil if there is no backup
+        root = Root.new(repository)
+        oldest = Expire.oldest(root.backups_path) || return
 
-        output.puts(newest.path)
+        output.puts(oldest.path)
       end
     end
   end
