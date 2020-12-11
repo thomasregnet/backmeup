@@ -4,7 +4,7 @@ require 'backmeup/commands/newest'
 
 RSpec.describe Backmeup::Commands::Newest do
   let(:backups) { File.join(repository, 'backups') }
-  let(:command) { described_class.new(backups, {}) }
+  let(:command) { described_class.new(repository, {}) }
   let(:newest_backup) { File.join(backups, '2020-12-12T11:12:13+02:00') }
   let(:output) { StringIO.new }
   let(:repository) { 'tmp' }
