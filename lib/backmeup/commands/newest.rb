@@ -4,14 +4,19 @@ require_relative '../command'
 
 module Backmeup
   module Commands
+    # Print the newest backup
     class Newest < Backmeup::Command
-      def initialize(options)
+      def initialize(path, options)
         @options = options
+        @path    = path
       end
 
+      attr_reader :path
+
       def execute(input: $stdin, output: $stdout)
-        # Command logic goes here ...
-        output.puts "OK"
+        newest = Expire.newest(path) || return
+
+        output.puts(newest.path) # Expire.newest(path).path
       end
     end
   end
