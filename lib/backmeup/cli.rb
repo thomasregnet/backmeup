@@ -19,7 +19,7 @@ module Backmeup
     end
     map %w[--version -v] => :version
 
-    desc 'oldest REPOSITORY', 'Command description...'
+    desc 'oldest REPOSITORY', 'Print the oldest backup of REPOSITORY'
     method_option :help, aliases: '-h', type: :boolean,
                          desc: 'Display usage information'
     def oldest(repository)
