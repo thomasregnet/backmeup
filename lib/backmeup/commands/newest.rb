@@ -14,15 +14,10 @@ module Backmeup
       attr_reader :repository
 
       def execute(input: $stdin, output: $stdout)
-        newest = Expire.newest(path) || return # Expire.newest returns nil if there is no backup
+        root = Backmeup::Root.new(repository)
+        newest = Expire.newest(root.backups_path) || return # Expire.newest returns nil if there is no backup
 
         output.puts(newest.path)
-      end
-
-      private
-
-      def path
-        @path ||= File.join(repository, 'backups')
       end
     end
   end
