@@ -19,6 +19,18 @@ module Backmeup
     end
     map %w[--version -v] => :version
 
+    desc 'oldest REPOSITORY', 'Command description...'
+    method_option :help, aliases: '-h', type: :boolean,
+                         desc: 'Display usage information'
+    def oldest(repository)
+      if options[:help]
+        invoke :help, ['oldest']
+      else
+        require_relative 'commands/oldest'
+        Backmeup::Commands::Oldest.new(repository, options).execute
+      end
+    end
+
     desc 'newest REPOSITORY', 'Print the newest backup of REPOSITORY'
     method_option :help, aliases: '-h', type: :boolean,
                          desc: 'Display usage information'
