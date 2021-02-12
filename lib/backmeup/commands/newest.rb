@@ -17,7 +17,7 @@ module Backmeup
         root = Backmeup::Root.new(repository)
         newest = Expire.newest(root.backups_path) || return # Expire.newest returns nil if there is no backup
 
-        output.puts(newest.path)
+        output.puts(newest.pathname)
       end
     end
   end
