@@ -39,7 +39,7 @@ module Backmeup
       end
 
       def destination
-        @destination ||= DateTime.now.to_s
+        @destination ||= Time.now.utc.to_s.sub(' ', 'T').sub(' ', '_')
       end
 
       def previous_destination

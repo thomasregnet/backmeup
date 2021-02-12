@@ -17,7 +17,7 @@ module Backmeup
         root = Root.new(repository)
         oldest = Expire.oldest(root.backups_path) || return
 
-        output.puts(oldest.path)
+        output.puts(oldest.pathname)
       end
     end
   end

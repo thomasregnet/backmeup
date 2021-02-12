@@ -5,7 +5,7 @@ require 'backmeup/commands/newest'
 RSpec.describe Backmeup::Commands::Newest do
   let(:backups) { File.join(repository, 'backups') }
   let(:command) { described_class.new(repository, {}) }
-  let(:newest_backup) { File.join(backups, '2020-12-12T11:12:13+02:00') }
+  let(:newest_backup) { File.join(backups, '2020-12-12T11:12:13') }
   let(:output) { StringIO.new }
   let(:repository) { 'tmp' }
 
@@ -34,7 +34,7 @@ RSpec.describe Backmeup::Commands::Newest do
   context 'with many backups' do
     before do
       (10..12).each do |day|
-        backup = File.join(backups, "2020-12-#{day}T11:12:13+02:00")
+        backup = File.join(backups, "2020-12-#{day}T11:12:13")
         FileUtils.mkpath(backup)
       end
 
