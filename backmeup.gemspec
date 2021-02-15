@@ -30,6 +30,7 @@ Gem::Specification.new do |spec|
   spec.require_paths = ['lib']
 
   spec.add_dependency 'activesupport'
+  spec.add_dependency 'expire', '~> 0.2.0'
   spec.add_dependency 'thor'
   spec.add_dependency 'tty-command', '~> 0.9'
   spec.add_dependency 'tty-file'
@@ -39,6 +40,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'byebug'
   spec.add_development_dependency 'rake', '~> 13.0'
   spec.add_development_dependency 'reek'
+  spec.add_development_dependency 'rspec', '~> 3.10'
   spec.add_development_dependency 'rubocop'
   spec.add_development_dependency 'rubocop-rspec'
   spec.add_development_dependency 'simplecov'
