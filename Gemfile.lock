@@ -164,7 +164,7 @@ DEPENDENCIES
   byebug
   rake (~> 13.0)
   reek
-  rspec (~> 3.0)
+  rspec (~> 3.10)
   rubocop
   rubocop-rspec
   simplecov
