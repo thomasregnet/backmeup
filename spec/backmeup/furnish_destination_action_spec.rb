@@ -94,7 +94,6 @@ RSpec.describe Backmeup::FurnishDestinationAction do
         allow(furnisher).to receive(:perform_without_script)
       end
 
-
       it 'does not call perform_without_script' do
         furnisher.perform
         expect(furnisher).not_to have_received(:perform_without_script)

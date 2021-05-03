@@ -5,10 +5,10 @@ RSpec.describe '`backmeup oldest` command', type: :cli do
     <<~OUT
       Usage:
         backmeup oldest REPOSITORY
-      
+
       Options:
         -h, [--help], [--no-help]  # Display usage information
-     
+
       Print the oldest backup of REPOSITORY
     OUT
   end
