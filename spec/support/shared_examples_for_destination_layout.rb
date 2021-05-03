@@ -17,7 +17,9 @@ RSpec.shared_examples 'a DestinationLayout' do
   let(:root) { instance_double('Backmeup::Root') }
 
   before do
+    # rubocop:disable RSpec/SubjectStub
     allow(subject).to receive(:root).and_return(root)
+    # rubocop:enable RSpec/SubjectStub
     allow(root).to receive(:backups).and_return(File.join(*path_array))
   end
 
