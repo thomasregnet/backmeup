@@ -22,6 +22,7 @@ module Backmeup
         end
 
         ::Backmeup::ExampleBackupRsync.create(path: path)
+        ::Backmeup::ExampleBackupRsyncLinkDest.create(path: path)
 
         output.puts "created #{path}"
       end
