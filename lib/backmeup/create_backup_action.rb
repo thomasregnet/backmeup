@@ -20,7 +20,7 @@ module Backmeup
       @previous_destination = previous_destination
     end
 
-    attr_reader :destination, :previous_destination, :root
+    attr_reader :destination, :previous_destination
 
     protected
 
