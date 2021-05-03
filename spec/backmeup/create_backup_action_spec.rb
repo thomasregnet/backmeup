@@ -105,45 +105,62 @@ RSpec.describe Backmeup::CreateBackupAction do
   end
 
   describe '#env' do
+    before do
+      config_pathname = Pathname.new('tmp/root/config')
+      config_pathname.mkpath
+      FileUtils.touch(File.join(config_pathname, 'files'))
+      FileUtils.touch(File.join(config_pathname, 'excludes'))
+    end
+
+    after { FileUtils.rm_rf(File.join('tmp', 'root')) }
+
     context 'with a previous_destination' do
       let(:env) do
         described_class.new(
           destination:          'my_destination',
           previous_destination: 'previous_destination',
-          root:                 Backmeup::Root.new('root')
+          root:                 Backmeup::Root.new(File.join('tmp', 'root'))
         ).send(:env)
       end
 
       it 'sets the DESTINATION_DATA variable' do
         expect(env['DESTINATION_DATA'])
-          .to eq(File.join('root', 'backups', 'my_destination', 'data'))
+          .to eq(File.join('tmp', 'root', 'backups', 'my_destination', 'data'))
       end
 
       it 'sets the DESTINATION_PATH variable' do
         expect(env['DESTINATION_PATH'])
-          .to eq(File.join('root', 'backups', 'my_destination'))
+          .to eq(File.join('tmp', 'root', 'backups', 'my_destination'))
       end
 
       it 'sets the DESTINATION_STDERR variable' do
         expect(env['DESTINATION_STDERR'])
-          .to eq(File.join('root', 'backups', 'my_destination', 'stderr'))
+          .to eq(File.join('tmp', 'root', 'backups', 'my_destination', 'stderr'))
       end
 
       it 'sets the DESTINATION_STDOUT variable' do
         expect(env['DESTINATION_STDOUT'])
-          .to eq(File.join('root', 'backups', 'my_destination', 'stdout'))
+          .to eq(File.join('tmp', 'root', 'backups', 'my_destination', 'stdout'))
       end
 
       it 'sets the PREVIOUS_DESTINATION_DATA variable' do
         expect(env['PREVIOUS_DESTINATION_DATA'])
           .to eq(
-            File.join('root', 'backups', 'previous_destination', 'data')
+            File.join('tmp', 'root', 'backups', 'previous_destination', 'data')
           )
       end
 
       it 'sets the PREVIOUS_DESTINATION_PATH variable' do
         expect(env['PREVIOUS_DESTINATION_PATH'])
-          .to eq(File.join('root', 'backups', 'previous_destination'))
+          .to eq(File.join('tmp', 'root', 'backups', 'previous_destination'))
+      end
+
+      it 'sets the FILES_PATH variable' do
+        expect(env['FILES_PATH']).to eq(File.join('tmp', 'root', 'config', 'files'))
+      end
+
+      it 'sets the EXCLUDES_PATH variable' do
+        expect(env['EXCLUDES_PATH']).to eq(File.join('tmp', 'root', 'config', 'excludes'))
       end
     end
 
@@ -152,28 +169,28 @@ RSpec.describe Backmeup::CreateBackupAction do
         described_class.new(
           destination:          'my_destination',
           previous_destination: nil,
-          root:                 Backmeup::Root.new('root')
+          root:                 Backmeup::Root.new(File.join('tmp', 'root'))
         ).send(:env)
       end
 
       it 'sets the DESTINATION_DATA variable' do
         expect(env['DESTINATION_DATA'])
-          .to eq(File.join('root', 'backups', 'my_destination', 'data'))
+          .to eq(File.join('tmp', 'root', 'backups', 'my_destination', 'data'))
       end
 
       it 'sets the DESTINATION_PATH variable' do
         expect(env['DESTINATION_PATH'])
-          .to eq(File.join('root', 'backups', 'my_destination'))
+          .to eq(File.join('tmp', 'root', 'backups', 'my_destination'))
       end
 
       it 'sets the DESTINATION_STDERR variable' do
         expect(env['DESTINATION_STDERR'])
-          .to eq(File.join('root', 'backups', 'my_destination', 'stderr'))
+          .to eq(File.join('tmp', 'root', 'backups', 'my_destination', 'stderr'))
       end
 
       it 'sets the DESTINATION_STDOUT variable' do
         expect(env['DESTINATION_STDOUT'])
-          .to eq(File.join('root', 'backups', 'my_destination', 'stdout'))
+          .to eq(File.join('tmp', 'root', 'backups', 'my_destination', 'stdout'))
       end
 
       it 'does not set the PREVIOUS_DESTINATION_DATA variable' do
@@ -182,6 +199,14 @@ RSpec.describe Backmeup::CreateBackupAction do
 
       it 'does not set the PREVIOUS_DESTINATION_PATH variable' do
         expect(env['PREVIOUS_DESTINATION_PATH']).to be_nil
+      end
+
+      it 'sets the FILES_PATH variable' do
+        expect(env['FILES_PATH']).to eq(File.join('tmp', 'root', 'config', 'files'))
+      end
+
+      it 'sets the EXCLUDES_PATH variable' do
+        expect(env['EXCLUDES_PATH']).to eq(File.join('tmp', 'root', 'config', 'excludes'))
       end
     end
   end
