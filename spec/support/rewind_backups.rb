@@ -16,7 +16,7 @@ module BackmeupTestTool
     attr_reader :backups_path
 
     def perform
-      backup_dirs = Dir["#{backups_path}/*"].sort.reverse
+      backup_dirs = Dir["#{backups_path}/*"].reverse
       backup_dirs.each do |backup_dir|
         rewinded_backup_dir = rewinded_backup_dir_for(backup_dir)
         FileUtils.mv(backup_dir, rewinded_backup_dir)
