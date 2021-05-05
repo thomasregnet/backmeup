@@ -74,6 +74,7 @@ RSpec.describe 'initialize a repository and use it' do
 
     it 'created a second backup' do
       backup_dir = File.join(backups.max, 'data', 'my_data')
+      # byebug
       expect(test_data.match_dir?(backup_dir)).to be true
     end
   end

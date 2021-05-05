@@ -8,10 +8,13 @@ module Backmeup
     class Create < Backmeup::Command
       def initialize(repository, options)
         @repository = repository
-        @options = options
-      end
+        @options    = options
 
-      attr_reader :options, :repository
+        # previous_destination must be detected before the destination is created,
+        # otherwise the previous_destination equals destination.
+        # That said, previous_destination is detected here in the constructor.
+        @previous_destination = Expire.newest(root.backups_path).to_s
+      end
 
       def execute(input: $stdin, output: $stdout)
         create_destination
@@ -21,6 +24,8 @@ module Backmeup
       end
 
       private
+
+      attr_reader :options, :previous_destination, :repository
 
       def create_backup
         CreateBackupAction.perform(
@@ -40,10 +45,6 @@ module Backmeup
 
       def destination
         @destination ||= Time.now.utc.to_s.sub(' ', 'T').sub(' ', '_')
-      end
-
-      def previous_destination
-        @previous_destination ||= Expire.newest(root.backups_path).to_s
       end
 
       def root
