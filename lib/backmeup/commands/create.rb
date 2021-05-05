@@ -13,7 +13,7 @@ module Backmeup
         # previous_destination must be detected before the destination is created,
         # otherwise the previous_destination equals destination.
         # That said, previous_destination is detected here in the constructor.
-        @previous_destination = Expire.newest(root.backups_path).to_s
+        @previous_destination = Expire.newest(root.backups_path)&.pathname.to_s
       end
 
       def execute(input: $stdin, output: $stdout)
