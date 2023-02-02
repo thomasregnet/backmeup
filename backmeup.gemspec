@@ -30,7 +30,7 @@ Gem::Specification.new do |spec|
   spec.require_paths = ['lib']
 
   spec.add_dependency 'activesupport'
-  # spec.add_dependency 'expire', '~> 0.2.0'
+  spec.add_dependency 'expire', '~> 0.2'
   spec.add_dependency 'thor'
   spec.add_dependency 'tty-command', '~> 0.9'
   spec.add_dependency 'tty-file'
