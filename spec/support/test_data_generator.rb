@@ -1,14 +1,14 @@
 # frozen_string_literal: true
 
-require 'tty-file'
+require "tty-file"
 
 module BackmeupTestTool
   # Generate and mutate test data
   class TestDataGenerator
-    DEFAULT_PATH = File.join('tmp', 'my_data')
+    DEFAULT_PATH = File.join("tmp", "my_data")
 
-    def self.populate(**args)
-      new(**args).populate
+    def self.populate(**)
+      new(**).populate
     end
 
     def initialize(path: DEFAULT_PATH)
@@ -31,7 +31,7 @@ module BackmeupTestTool
     end
 
     def mutate
-      @mutation = mutation ? mutation.next : 'A'
+      @mutation = mutation ? mutation.next : "A"
 
       Dir["#{path}/only_*"].each { |file| FileUtils.rm(file) }
 
@@ -41,7 +41,7 @@ module BackmeupTestTool
 
     def populate
       FileUtils.mkpath(path)
-      create_file('test', "test\n")
+      create_file("test", "test\n")
       mutate
       self
     end
@@ -54,9 +54,9 @@ module BackmeupTestTool
     end
 
     def expected_files
-      expected_files = ['test']
+      expected_files = ["test"]
 
-      ('A'..mutation).each { |letter| expected_files << "mutation_#{letter}" }
+      ("A"..mutation).each { |letter| expected_files << "mutation_#{letter}" }
 
       expected_files << "only_#{mutation}"
     end

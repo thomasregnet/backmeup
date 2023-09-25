@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-require 'tty-file'
-require_relative '../command'
+require "tty-file"
+require_relative "../command"
 
 module Backmeup
   module Commands

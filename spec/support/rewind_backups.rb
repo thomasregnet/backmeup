@@ -3,10 +3,10 @@
 module BackmeupTestTool
   # Set the date of backups to one year before
   class RewindBackups
-    DEFAULT_BACKUPS_PATH = File.join('tmp', 'my_repository', 'backups')
+    DEFAULT_BACKUPS_PATH = File.join("tmp", "my_repository", "backups")
 
-    def self.perform(**args)
-      new(**args).perform
+    def self.perform(**)
+      new(**).perform
     end
 
     def initialize(backups_path: DEFAULT_BACKUPS_PATH)

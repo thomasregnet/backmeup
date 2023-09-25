@@ -1,14 +1,14 @@
 # frozen_string_literal: true
 
-require 'tty/file'
+require "tty/file"
 
 module Backmeup
   # Base class for examples
   class ExampleBase
-    EXAMPLES_DIR = 'examples'
+    EXAMPLES_DIR = "examples"
 
-    def self.create(**args)
-      new(**args).create
+    def self.create(**)
+      new(**).create
     end
 
     def initialize(path:)

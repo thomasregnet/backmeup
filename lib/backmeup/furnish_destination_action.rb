@@ -33,7 +33,7 @@ module Backmeup
     private
 
     def create_or_empty(path)
-      File.open(path, 'w') { |file| file.truncate(0) }
+      File.open(path, "w") { |file| file.truncate(0) }
     end
   end
 end

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative '../command'
+require_relative "../command"
 
 module Backmeup
   module Commands
@@ -8,7 +8,7 @@ module Backmeup
     class Create < Backmeup::Command
       def initialize(repository, options)
         @repository = repository
-        @options    = options
+        @options = options
 
         # previous_destination must be detected before the destination is created,
         # otherwise the previous_destination equals destination.
@@ -20,7 +20,7 @@ module Backmeup
         create_destination
         create_backup
 
-        output.puts('OK')
+        output.puts("OK")
       end
 
       private
@@ -29,22 +29,22 @@ module Backmeup
 
       def create_backup
         CreateBackupAction.perform(
-          destination:          destination,
+          destination: destination,
           previous_destination: previous_destination,
-          root:                 root
+          root: root
         )
       end
 
       def create_destination
         CreateDestinationAction.perform(
-          destination:          destination,
+          destination: destination,
           previous_destination: previous_destination,
-          root:                 root
+          root: root
         )
       end
 
       def destination
-        @destination ||= Time.now.utc.to_s.sub(' ', 'T').sub(' ', '_')
+        @destination ||= Time.now.utc.to_s.sub(" ", "T").sub(" ", "_")
       end
 
       def root

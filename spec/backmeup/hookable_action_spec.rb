@@ -24,7 +24,7 @@ module TestBackmeup
     end
 
     def script_name
-      'test_script'
+      "test_script"
     end
   end
 end
@@ -34,18 +34,18 @@ RSpec.describe Backmeup::HookableAction do
 
   before do
     allow(Backmeup::ScriptIfExist).to receive(:run)
-      .with(env: :fake_env, root: :fake_root, script_name: 'before_test_script')
+      .with(env: :fake_env, root: :fake_root, script_name: "before_test_script")
 
     allow(Backmeup::ScriptIfExist).to receive(:run)
-      .with(env: :fake_env, root: :fake_root, script_name: 'after_test_script')
+      .with(env: :fake_env, root: :fake_root, script_name: "after_test_script")
   end
 
-  it 'calls #perform' do
+  it "calls #perform" do
     hookable.perform
     expect(hookable).to be_performed
   end
 
-  it 'calls the hooks' do
+  it "calls the hooks" do
     hookable.perform
     expect(Backmeup::ScriptIfExist).to have_received(:run).twice
   end

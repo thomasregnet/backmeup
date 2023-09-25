@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe '`backmeup init` command', type: :cli do
+RSpec.describe "`backmeup init` command", type: :cli do
   let(:expected_output) do
     <<~OUT
       Usage:
@@ -13,7 +13,7 @@ RSpec.describe '`backmeup init` command', type: :cli do
     OUT
   end
 
-  it 'executes `backmeup help init` command successfully' do
+  it "executes `backmeup help init` command successfully" do
     output = `backmeup help init`
     expect(output).to eq(expected_output)
   end
