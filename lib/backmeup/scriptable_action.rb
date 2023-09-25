@@ -11,8 +11,8 @@ module Backmeup
 
     def scipt_if_exist
       ScriptIfExist.run(
-        env:         env,
-        root:        root,
+        env: env,
+        root: root,
         script_name: script_name
       )
     end

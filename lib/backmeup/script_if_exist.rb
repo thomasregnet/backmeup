@@ -3,13 +3,13 @@
 module Backmeup
   # Run a script if it exist and return true, otherwise return false.
   class ScriptIfExist
-    def self.run(**args)
-      new(**args).run
+    def self.run(**)
+      new(**).run
     end
 
     def initialize(env:, root:, script_name:)
-      @env         = env
-      @root        = root
+      @env = env
+      @root = root
       @script_name = script_name
     end
 

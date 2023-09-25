@@ -10,19 +10,19 @@ module Backmeup
     attr_reader :base_path
 
     def backups
-      @backups ||= Pathname.new(File.join(base_path, 'backups'))
+      @backups ||= Pathname.new(File.join(base_path, "backups"))
     end
 
     def backups_path
-      @backups_path ||= File.join(base_path, 'backups')
+      @backups_path ||= File.join(base_path, "backups")
     end
 
     def bin
-      @bin ||= Pathname.new(File.join(base_path, 'bin'))
+      @bin ||= Pathname.new(File.join(base_path, "bin"))
     end
 
     def config
-      @config ||= Pathname.new(File.join(base_path, 'config'))
+      @config ||= Pathname.new(File.join(base_path, "config"))
     end
   end
 end

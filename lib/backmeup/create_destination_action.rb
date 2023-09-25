@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'tty-command'
+require "tty-command"
 
 module Backmeup
   # Create a Backup-Destination
@@ -16,7 +16,7 @@ module Backmeup
 
     def initialize(destination:, previous_destination:, **args)
       super(**args)
-      @destination          = destination
+      @destination = destination
       @previous_destination = previous_destination
     end
 
@@ -25,7 +25,7 @@ module Backmeup
     protected
 
     def env
-      previous_destination_env({ 'DESTINATION_PATH' => destination_path })
+      previous_destination_env({"DESTINATION_PATH" => destination_path})
     end
 
     def perform_without_script

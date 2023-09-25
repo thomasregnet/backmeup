@@ -5,18 +5,18 @@ RSpec.describe Backmeup::ScriptIfExist do
 
   # it { is_expected.to respond_to(:run) }
 
-  describe '.run' do
-    let(:bin_path) { File.join('tmp', 'bin') }
-    let(:script_name) { 'test_script' }
+  describe ".run" do
+    let(:bin_path) { File.join("tmp", "bin") }
+    let(:script_name) { "test_script" }
     let(:args) do
       {
-        env:         {},
-        root:        Backmeup::Root.new('tmp'),
+        env: {},
+        root: Backmeup::Root.new("tmp"),
         script_name: script_name
       }
     end
 
-    context 'when the script exists and is executable' do
+    context "when the script exists and is executable" do
       before do
         FileUtils.mkpath(bin_path)
 
@@ -27,12 +27,12 @@ RSpec.describe Backmeup::ScriptIfExist do
 
       after { FileUtils.rm_rf(bin_path) }
 
-      it 'returns true' do
+      it "returns true" do
         expect(described_class.run(**args)).to be true
       end
     end
 
-    context 'when the script exists and is not executable' do
+    context "when the script exists and is not executable" do
       before do
         FileUtils.mkpath(bin_path)
 
@@ -43,14 +43,14 @@ RSpec.describe Backmeup::ScriptIfExist do
 
       after { FileUtils.rm_rf(bin_path) }
 
-      it 'returns raises a RuntimeError' do
+      it "returns raises a RuntimeError" do
         expect { described_class.run(**args) }
           .to raise_error(RuntimeError, "#{script_name} is not executable")
       end
     end
 
-    context 'when the script does not exist' do
-      it 'returns false' do
+    context "when the script does not exist" do
+      it "returns false" do
         expect(described_class.run(**args)).to be false
       end
     end

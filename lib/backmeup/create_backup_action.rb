@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'tty-command'
+require "tty-command"
 
 module Backmeup
   # Create a backup
@@ -16,7 +16,7 @@ module Backmeup
 
     def initialize(destination:, previous_destination:, **args)
       super(**args)
-      @destination          = destination
+      @destination = destination
       @previous_destination = previous_destination
     end
 
@@ -29,7 +29,7 @@ module Backmeup
     end
 
     def perform_without_script
-      File.open(File.join(root.config, 'filelist')).each do |src|
+      File.open(File.join(root.config, "filelist")).each do |src|
         FileUtils.cp_r(src.chomp, backup_destination)
       end
     end
@@ -38,17 +38,17 @@ module Backmeup
 
     def config_env
       result = {}
-      files_pathname = Pathname.new(File.join(root.config, 'files'))
-      excludes_pathname = Pathname.new(File.join(root.config, 'excludes'))
+      files_pathname = Pathname.new(File.join(root.config, "files"))
+      excludes_pathname = Pathname.new(File.join(root.config, "excludes"))
 
-      result['FILES_PATH']    = files_pathname.to_s    if files_pathname.exist?
-      result['EXCLUDES_PATH'] = excludes_pathname.to_s if excludes_pathname.exist?
+      result["FILES_PATH"] = files_pathname.to_s if files_pathname.exist?
+      result["EXCLUDES_PATH"] = excludes_pathname.to_s if excludes_pathname.exist?
 
       result
     end
 
     def backup_destination
-      @backup_destination ||= File.join(root.backups, destination, 'data')
+      @backup_destination ||= File.join(root.backups, destination, "data")
     end
   end
 end

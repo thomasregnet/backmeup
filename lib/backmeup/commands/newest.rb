@@ -1,13 +1,13 @@
 # frozen_string_literal: true
 
-require_relative '../command'
+require_relative "../command"
 
 module Backmeup
   module Commands
     # Print the newest backup
     class Newest < Backmeup::Command
       def initialize(repository, options)
-        @options    = options
+        @options = options
         @repository = repository
       end
 

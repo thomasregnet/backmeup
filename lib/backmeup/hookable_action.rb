@@ -4,9 +4,9 @@ module Backmeup
   # Execute before and after hooks
   module HookableAction
     def perform
-      perform_hook('before')
+      perform_hook("before")
       super
-      perform_hook('after')
+      perform_hook("after")
     end
 
     private
@@ -15,8 +15,8 @@ module Backmeup
       hook_name = "#{point}_#{script_name}"
 
       ScriptIfExist.run(
-        env:         env,
-        root:        root,
+        env: env,
+        root: root,
         script_name: hook_name
       )
     end
