@@ -38,13 +38,19 @@ module Backmeup
 
     def config_env
       result = {}
-      files_pathname = Pathname.new(File.join(root.config, "files"))
-      excludes_pathname = Pathname.new(File.join(root.config, "excludes"))
 
       result["FILES_PATH"] = files_pathname.to_s if files_pathname.exist?
       result["EXCLUDES_PATH"] = excludes_pathname.to_s if excludes_pathname.exist?
 
       result
+    end
+
+    def files_pathname
+      Pathname.new(File.join(root.config, "files"))
+    end
+
+    def excludes_pathname
+      Pathname.new(File.join(root.config, "excludes"))
     end
 
     def backup_destination
