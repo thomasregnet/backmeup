@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require "simplecov"
-require "aruba/rspec"
 require "bundler/setup"
 require "byebug"
 require "backmeup"
