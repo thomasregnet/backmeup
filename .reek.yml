@@ -6,6 +6,9 @@ detectors:
     accept:
       - e
       - _
+  UnusedParameters:
+    exclude:
+      - execute
 
 exclude_paths:
   - tmp
