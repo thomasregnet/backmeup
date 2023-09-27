@@ -36,7 +36,6 @@ Gem::Specification.new do |spec|
   spec.add_dependency "tty-file"
   spec.add_dependency "zeitwerk"
 
-  spec.add_development_dependency "aruba"
   spec.add_development_dependency "byebug"
   spec.add_development_dependency "rake", "~> 13.0"
   spec.add_development_dependency "reek"
