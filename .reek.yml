@@ -6,3 +6,6 @@ detectors:
     accept:
       - e
       - _
+
+exclude_paths:
+  - tmp
