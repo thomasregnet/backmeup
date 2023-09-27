@@ -1,8 +1,17 @@
 ---
 detectors:
+  RepeatedConditional:
+    exclude:
+      - "Backmeup::CLI"
   UtilityFunction:
     public_methods_only: true
   UncommunicativeVariableName:
     accept:
       - e
       - _
+  UnusedParameters:
+    exclude:
+      - execute
+
+exclude_paths:
+  - tmp
