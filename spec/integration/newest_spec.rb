@@ -7,7 +7,7 @@ RSpec.describe "`backmeup newest` command", type: :cli do
         backmeup newest REPOSITORY
 
       Options:
-        -h, [--help], [--no-help]  # Display usage information
+        -h, [--help], [--no-help], [--skip-help]  # Display usage information
 
       Print the newest backup of REPOSITORY
     OUT

@@ -7,7 +7,7 @@ RSpec.describe "`backmeup oldest` command", type: :cli do
         backmeup oldest REPOSITORY
 
       Options:
-        -h, [--help], [--no-help]  # Display usage information
+        -h, [--help], [--no-help], [--skip-help]  # Display usage information
 
       Print the oldest backup of REPOSITORY
     OUT
