@@ -7,7 +7,7 @@ RSpec.describe "`backmeup init` command", type: :cli do
         backmeup init PATH
 
       Options:
-        -h, [--help], [--no-help]  # Display usage information
+        -h, [--help], [--no-help], [--skip-help]  # Display usage information
 
       Command description...
     OUT

@@ -7,7 +7,7 @@ RSpec.describe "`backmeup create` command", type: :cli do
         backmeup create REPOSITORY
 
       Options:
-        -h, [--help], [--no-help]  # Display usage information
+        -h, [--help], [--no-help], [--skip-help]  # Display usage information
 
       Command description...
     OUT
